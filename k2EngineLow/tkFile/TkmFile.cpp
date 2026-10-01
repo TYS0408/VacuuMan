@@ -289,6 +289,9 @@ namespace nsK2EngineLow {
 			loadTexture(tkmMat.reflectionMapFileName, tkmMat.reflectionMap);
 			loadTexture(tkmMat.refractionMapFileName, tkmMat.refractionMap);
 		}
+
+		//OutputDebugStringA(("albedo=" + tkmMat.albedoMapFileName + "\n").c_str());
+
 		// マテリアルのユニークIDを生成する。
 		std::string sourceName = tkmMat.albedoMapFileName;
 		if (!tkmMat.normalMapFileName.empty()) {

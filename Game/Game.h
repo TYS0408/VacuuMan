@@ -16,5 +16,15 @@ public:
 private:
 	ModelRender m_modelRender;
 	Vector3 m_pos;
+	Quaternion m_rot;
+
+
+	/** アニメーション */
+	enum EnPlayAnimation
+	{
+		enAnimationClip_Num,
+	};
+
+	AnimationClip animationClips[enAnimationClip_Num];
 };
 
