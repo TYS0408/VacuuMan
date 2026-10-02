@@ -26,6 +26,11 @@ void Character::Move()
 {
 
 }
+
+void Character::Rotation()
+{
+
+}
 void Character::Render(RenderContext& rc)
 {
 	

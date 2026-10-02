@@ -14,5 +14,7 @@ public:
 
 	/** キャラクターを動かすために必要な関数*/
 	virtual void Move();
+	/** キャラクターを回転させるために必要な関数*/
+	virtual void Rotation();
 };
 

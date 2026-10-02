@@ -39,6 +39,9 @@
     <ClCompile Include="Transform\Transform.cpp">
       <Filter>Transform</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Player\Player.cpp">
+      <Filter>Source\Actor\Character\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -54,6 +57,9 @@
     </ClInclude>
     <ClInclude Include="Transform\Transform.h">
       <Filter>Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Player\Player.h">
+      <Filter>Source\Actor\Character\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
