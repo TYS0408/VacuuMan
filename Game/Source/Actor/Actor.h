@@ -1,7 +1,7 @@
 /** Actor.h*/
 /* 基底クラス*/
 #pragma once
-#include "Transform.h"
+#include "Transform/Transform.h"
 class Actor : public IGameObject
 {
 protected:

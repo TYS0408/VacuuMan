@@ -4,6 +4,24 @@
     <Filter Include="system">
       <UniqueIdentifier>{22dd8095-74f9-46df-81a1-36675a040b1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{4af93e80-2768-44d0-8190-9838aed6d6b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Actor">
+      <UniqueIdentifier>{f2604565-4d0a-4635-bc7e-dab961950b38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Actor\Character">
+      <UniqueIdentifier>{c84f22b2-3eef-4ea5-8c56-e1a8b5ead6b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Actor\Stage">
+      <UniqueIdentifier>{5af96af6-3a18-48fd-8b2f-526b3f5d6b0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Actor\Character\Player">
+      <UniqueIdentifier>{923763eb-aa48-41ed-aa2b-f4ec059dcc24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Transform">
+      <UniqueIdentifier>{0e1002a0-7a9c-4dc6-9b59-e68a90f93f60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -12,9 +30,15 @@
       <Filter>system</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Source\Actor\Actor.cpp">
+      <Filter>Source\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Character.cpp">
+      <Filter>Source\Actor\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform\Transform.cpp">
+      <Filter>Transform</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -22,8 +46,14 @@
       <Filter>system</Filter>
     </ClInclude>
     <ClInclude Include="Game.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="Actor.h" />
+    <ClInclude Include="Source\Actor\Actor.h">
+      <Filter>Source\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Character.h">
+      <Filter>Source\Actor\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform\Transform.h">
+      <Filter>Transform</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
