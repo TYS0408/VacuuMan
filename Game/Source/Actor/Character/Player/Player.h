@@ -19,6 +19,13 @@ public:
 
 	void Rotation()override;
 
+
+	/** プレイヤーのポジション取得関数 */
+	const Vector3 GetPosition()const
+	{
+		return m_transform.GetPosition();
+	};
+
 	private:
 	/** プレイヤーのモデル*/
 	ModelRender m_playerModelRender;

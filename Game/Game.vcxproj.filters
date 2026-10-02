@@ -22,6 +22,9 @@
     <Filter Include="Transform">
       <UniqueIdentifier>{0e1002a0-7a9c-4dc6-9b59-e68a90f93f60}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameCamera">
+      <UniqueIdentifier>{d3222c44-277b-402c-bf9e-1d40d55854f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -42,6 +45,9 @@
     <ClCompile Include="Source\Actor\Character\Player\Player.cpp">
       <Filter>Source\Actor\Character\Player</Filter>
     </ClCompile>
+    <ClCompile Include="GameCamera\GameCamera.cpp">
+      <Filter>GameCamera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -60,6 +66,9 @@
     </ClInclude>
     <ClInclude Include="Source\Actor\Character\Player\Player.h">
       <Filter>Source\Actor\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCamera\GameCamera.h">
+      <Filter>GameCamera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

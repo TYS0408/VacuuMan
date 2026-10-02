@@ -2,6 +2,7 @@
 
 #include "Level3DRender/LevelRender.h"
 class Player;
+class GameCamera;
 class Game : public IGameObject
 {
 public:
@@ -14,5 +15,7 @@ public:
 private:
 	/** プレイヤー */
 	Player* m_player = nullptr;
+	/** ゲームカメラ*/
+	GameCamera* m_gameCamera = nullptr;
 };
 
