@@ -12,7 +12,8 @@ public:
 
 
 public:
-	void Follow();
+	/** 定点カメラの更新*/
+	void FixedView();
 
 	/** カメラの位置を取得*/
 	Vector3 GetCameraPosition()const
@@ -26,11 +27,18 @@ public:
 	}
 
 private:
+	
+
+private:
 	/** カメラの位置*/
 	Vector3 m_cameraPos = Vector3::Zero;
 
 	/** プレイヤーのポインタ*/
 	Player* m_player = nullptr;
+
+	/** 定点カメラの位置*/
+	Vector3 m_fixedPos = Vector3::Zero;
+	Vector3 m_fixedTarget = Vector3::Zero;
 
 };
 

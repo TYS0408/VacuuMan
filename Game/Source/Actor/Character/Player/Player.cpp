@@ -9,6 +9,12 @@ namespace
 	/** プレイヤーのコントローラーの高さ*/
 	constexpr float CHARACTER_CONTROLLER_HEIGHT = 75.0f;
 
+	/** プレイヤーの初期座標*/
+	const Vector3 PLAYER_START_POSITION = Vector3(0.0f, 0.0f, -50.0f);
+
+	/** プレイヤーの大きさ*/
+	Vector3 PLAYER_SCALE = Vector3(0.7f,0.7f, 0.7f);
+
 }
 
 Player::Player()
@@ -24,10 +30,17 @@ Player::~Player()
 
 bool Player::Start()
 {
+
+	/** 初期座標を設定*/
+	m_transform.SetPosition(PLAYER_START_POSITION);
 	/** キャラクターコントローラーを初期化する。幅・高さ・初期座標を渡す */
 	m_characterController.Init(CHARACTER_CONTROLLER_WIDTH, CHARACTER_CONTROLLER_HEIGHT,m_transform.GetPosition());
 	/** モデルの座標を初期座標に合わせて更新する */
 	m_playerModelRender.SetPosition(m_transform.GetPosition());
+
+	m_playerModelRender.SetScale(PLAYER_SCALE);
+	m_rotation.SetRotationDegY(180.0f);
+	m_playerModelRender.SetRotation(m_rotation);
 	m_playerModelRender.Update();
 	return true;
 }
@@ -88,7 +101,6 @@ void Player::Rotation()
 {
 	/** 移動速度のXまたはZ成分がある程度あるときだけ回転処理を行う。
 	(停止しているときは回転させない)*/
-
 	if (fabsf(m_moveSpeed.x) >= 0.0001 || fabsf(m_moveSpeed.z)>= 0.0001f)
 	{
 		m_rotation.SetRotationYFromDirectionXZ(m_moveSpeed);
@@ -96,7 +108,7 @@ void Player::Rotation()
 		m_transform.SetRotation(m_rotation);
 	}
 
-
+	
 	m_playerModelRender.SetRotation(m_rotation);
 }
 
