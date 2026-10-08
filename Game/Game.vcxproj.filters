@@ -51,6 +51,12 @@
     <ClCompile Include="Source\Actor\Stage\Stage.cpp">
       <Filter>Source\Actor\Stage</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Actor\Stage\TrashManager.cpp">
+      <Filter>Source\Actor\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Stage\Trash.cpp">
+      <Filter>Source\Actor\Stage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -74,6 +80,12 @@
       <Filter>GameCamera</Filter>
     </ClInclude>
     <ClInclude Include="Source\Actor\Stage\Stage.h">
+      <Filter>Source\Actor\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Stage\TrashManager.h">
+      <Filter>Source\Actor\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Stage\Trash.h">
       <Filter>Source\Actor\Stage</Filter>
     </ClInclude>
   </ItemGroup>

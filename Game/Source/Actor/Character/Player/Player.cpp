@@ -13,7 +13,7 @@ namespace
 	const Vector3 PLAYER_START_POSITION = Vector3(0.0f, 0.0f, -50.0f);
 
 	/** プレイヤーの大きさ*/
-	Vector3 PLAYER_SCALE = Vector3(0.7f,0.7f, 0.7f);
+	Vector3 PLAYER_SCALE = Vector3(1.0f,1.0f, 1.0f);
 
 }
 

@@ -6,7 +6,7 @@ namespace
 	const char* STAGE_FILE_PATH = "Assets/modelData/Stage/Stage.tkm";
 
 	/** ステージの座標*/
-	Vector3 STAGE_POS = Vector3(0.0f, -60.0f, 0.0f);
+	Vector3 STAGE_POS = Vector3(0.0f, 0.0f, 0.0f);
 }
 
 bool Stage::Start()

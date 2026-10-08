@@ -4,6 +4,7 @@
 class Player;
 class GameCamera;
 class Stage;
+class TrashManager;
 class Game : public IGameObject
 {
 public:
@@ -21,6 +22,9 @@ private:
 
 	/** ステージ*/
 	Stage* m_stage = nullptr;
+
+	/** トラッシュマネージャー*/
+	TrashManager* m_trashManager = nullptr;
 
 };
 
