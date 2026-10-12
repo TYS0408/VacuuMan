@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "TrashManager.h"
-
+#include"Source/Actor/VaccumCleaner/VaccumCleaner.h"
 namespace
 {
 	/** ゴミの全体量*/
@@ -8,25 +8,36 @@ namespace
 
 	/** 床の範囲*/
 	/** Xの最大範囲と最小範囲*/
-	const float FLOOR_MIN_X = -400.0f;
-	const float FLOOR_MAX_X = 400.0f;
+	constexpr float FLOOR_MIN_X = -400.0f;
+	constexpr float FLOOR_MAX_X = 400.0f;
 	/** Xの最大範囲と最小範囲*/
-	const float FLOOR_MIN_Z = -800.0f;
-	const float FLOOR_MAX_Z = 0.0f;
+	constexpr float FLOOR_MIN_Z = -800.0f;
+	constexpr float FLOOR_MAX_Z = -100.0f;
 	/** Yの範囲*/
-	const float FLOOR_Y = 0.0f;
+	constexpr float FLOOR_Y = 0.0f;
 
 
 	/** 1個のゴミに対する座標の抽選やり直し上限*/
-	const int MAX_RETRY = 100;
+	constexpr int MAX_RETRY = 100;
 
 	/** レイの開始高さ(家具より高く、天井より低くする)*/
-	const float RAY_TOP_Y = 300.0f;
+	constexpr float RAY_TOP_Y = 300.0f;
 
 	/**床とみなす高さの許容誤差*/
-	const float FLOOR_TOLERANCE = 5.0f;
+	constexpr float FLOOR_TOLERANCE = 5.0f;
 	/** ゴミの半径(周囲チェック用)*/
-	const float TRASH_RADIUS = 20.0f;
+	constexpr float TRASH_RADIUS = 20.0f;
+
+	/** 吸引関連*/
+	/* 吸引が届く距離**/
+	constexpr float SUCTION_RANGE = 100.0f;
+	/** 吸引の扇形の半角(度)*/
+	constexpr float SUCTION_HALF_ANGLE_DEG = 90.0f;
+	/** この距離まで近づいたら吸い込み完了*/
+	constexpr float ABSORB_DISTANCE = 40.0f;
+	/** 吸い寄せ速度(遠い時と近い時)*/
+	constexpr float SUCTION_SPEED_MIN = 50.0f;
+	constexpr float SUCTION_SPEED_MAX = 300.0f;
 
 }
 
@@ -109,9 +120,76 @@ bool TrashManager::CanPlaceTrash(float x, float z)const
 
 void TrashManager::Update()
 {
+	UpdateSuction();
+}
+
+void TrashManager::UpdateSuction()
+{
+	VaccumCleaner* vaccum = FindGO<VaccumCleaner>("vaccumcleaner");
+	if (vaccum == nullptr)
+	{
+		return;
+	}
+
+	const Vector3 nozzlePos = vaccum->GetSuctionPosition();
+	const Vector3 suctionDir = vaccum->GetSuctionDirection();
+	float dt = g_gameTime->GetFrameDeltaTime();
+
+	for (auto it = m_trashList.begin(); it != m_trashList.end();)
+	{
+		Trash* trash = *it;
+		const Vector3 toTrash = trash->GetPosition() - nozzlePos;
+		const float distance = toTrash.Length();
+
+		/** 吸い込み完了*/
+		if (distance <= ABSORB_DISTANCE)
+		{
+			DeleteGO(trash);
+			it = m_trashList.erase(it);
+			continue;
+		}
+		/** 範囲内なら引き寄せる*/
+		if (IsInSuctionRange(toTrash, distance, suctionDir))
+		{
+			const float speed = CalcSuctionSpeed(distance);
+			PullTrash(trash, nozzlePos, speed, dt);
+		}
+		++it;
+	}
+}
+
+
+bool TrashManager::IsInSuctionRange(const Vector3& toTrash, float distance, const Vector3& suctionDir)const
+{
+	/** 距離チェック*/
+	if (distance > SUCTION_RANGE)
+	{
+		return false;
+	}
+
+	/** 角度チェック*/
+	Vector3 toTrashDir = toTrash;
+	toTrashDir.Normalize();
+	const float cosLimit = cosf(Math::DegToRad(SUCTION_HALF_ANGLE_DEG));
+	return toTrashDir.Dot(suctionDir) >= cosLimit;
 
 }
 
+
+float TrashManager::CalcSuctionSpeed(float distance)const
+{
+	/** 近いほど速くする*/
+	const float rate = 1.0f - (distance / SUCTION_RANGE);
+	return SUCTION_SPEED_MIN + (SUCTION_SPEED_MAX - SUCTION_SPEED_MIN) * rate;
+}
+
+void TrashManager::PullTrash(Trash* trash, const Vector3& nozzlePos, float speed, float deltaTime)const
+{
+	const Vector3 pos = trash->GetPosition();
+	Vector3 moveDir = nozzlePos - pos;
+	moveDir.Normalize();
+	trash->SetPosition(pos + moveDir * speed * deltaTime);
+}
 
 void TrashManager::Render(RenderContext& rc)
 {

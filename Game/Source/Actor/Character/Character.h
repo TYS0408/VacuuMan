@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Source/Actor/Actor.h"
 /** キャラクタークラス*/
 class Character : public Actor

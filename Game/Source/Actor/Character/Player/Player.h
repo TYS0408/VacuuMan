@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 #include "Source/Actor/Character/Character.h"
-
+#include"Source/Actor/VaccumCleaner/VaccumCleaner.h"
 /**　プレイヤークラス*/
 class Player : public Character
 {
@@ -25,6 +25,13 @@ public:
 	{
 		return m_transform.GetPosition();
 	};
+
+private:
+	/** 持っている掃除機*/
+	VaccumCleaner* m_vaccumCleaner = nullptr;
+
+	/** 掃除機を持つ位置(プレイヤーから見たオフセット)*/
+	void UpdateVaccumCleaner();
 
 	private:
 	/** プレイヤーのモデル*/

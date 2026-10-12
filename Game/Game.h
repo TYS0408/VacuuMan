@@ -1,10 +1,11 @@
-#pragma once
+﻿#pragma once
 
 #include "Level3DRender/LevelRender.h"
 class Player;
 class GameCamera;
 class Stage;
 class TrashManager;
+class Dog;
 class Game : public IGameObject
 {
 public:
@@ -25,6 +26,9 @@ private:
 
 	/** トラッシュマネージャー*/
 	TrashManager* m_trashManager = nullptr;
+
+	/** ドッグ*/
+	Dog* m_dog = nullptr;
 
 };
 

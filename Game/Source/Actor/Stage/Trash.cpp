@@ -37,6 +37,7 @@ bool Trash::Start()
 
 void Trash::Update()
 {
+	m_modelRender.SetPosition(m_position);
 	m_modelRender.Update();
 }
 

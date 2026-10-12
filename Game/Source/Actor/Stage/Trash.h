@@ -31,6 +31,19 @@ public:
 		m_position = pos;
 	}
 
+
+	/** 座標を取得*/
+	const Vector3& GetPosition()const
+	{
+		return m_position;
+	}
+
+	/** 座標を設定(モデルの座標も更新)*/
+	void SetPosition(const Vector3& pos)
+	{
+		m_position = pos;
+		m_modelRender.SetPosition(m_position);
+	}
 	/** 拾われた時の綺麗さ*/
 	int GetCleanPoint()const;
 

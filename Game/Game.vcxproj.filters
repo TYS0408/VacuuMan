@@ -25,6 +25,15 @@
     <Filter Include="GameCamera">
       <UniqueIdentifier>{d3222c44-277b-402c-bf9e-1d40d55854f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Actor\VaccumCleaner">
+      <UniqueIdentifier>{413e5bd0-3a7a-4e8b-99df-88ac2a5d3d5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Actor\Character\Dog">
+      <UniqueIdentifier>{e374ce42-ce78-4d95-bed8-b6449e48cd30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameScene">
+      <UniqueIdentifier>{55cacee6-8034-4609-be4e-ae2cf667f428}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -57,6 +66,15 @@
     <ClCompile Include="Source\Actor\Stage\Trash.cpp">
       <Filter>Source\Actor\Stage</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Actor\VaccumCleaner\VaccumCleaner.cpp">
+      <Filter>Source\Actor\VaccumCleaner</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Dog\Dog.cpp">
+      <Filter>Source\Actor\Character\Dog</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene\Title.cpp">
+      <Filter>GameScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -87,6 +105,15 @@
     </ClInclude>
     <ClInclude Include="Source\Actor\Stage\Trash.h">
       <Filter>Source\Actor\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\VaccumCleaner\VaccumCleaner.h">
+      <Filter>Source\Actor\VaccumCleaner</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Dog\Dog.h">
+      <Filter>Source\Actor\Character\Dog</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene\Title.h">
+      <Filter>GameScene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

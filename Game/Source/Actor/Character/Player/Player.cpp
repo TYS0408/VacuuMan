@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Player.h"
+#include"Source/Actor/VaccumCleaner/VaccumCleaner.h"
 namespace
 {
 	/** プレイヤーモデルのファイルパス*/
@@ -12,9 +13,13 @@ namespace
 	/** プレイヤーの初期座標*/
 	const Vector3 PLAYER_START_POSITION = Vector3(0.0f, 0.0f, -50.0f);
 
+
 	/** プレイヤーの大きさ*/
 	Vector3 PLAYER_SCALE = Vector3(1.0f,1.0f, 1.0f);
 
+
+	/** プレイヤーから見た掃除機の相対位置(右・上・前)*/
+	const Vector3 VACCUM_OFFSET = Vector3(30.0f, 40.0f, 40.0f);
 }
 
 Player::Player()
@@ -24,7 +29,10 @@ Player::Player()
 
 Player::~Player()
 {
-
+	if (m_vaccumCleaner != nullptr)
+	{
+		DeleteGO(m_vaccumCleaner);
+	}
 }
 
 
@@ -42,6 +50,11 @@ bool Player::Start()
 	m_rotation.SetRotationDegY(180.0f);
 	m_playerModelRender.SetRotation(m_rotation);
 	m_playerModelRender.Update();
+
+	/** 掃除機を生成*/
+	m_vaccumCleaner = NewGO<VaccumCleaner>(0, "vaccumcleaner");
+	UpdateVaccumCleaner();
+
 	return true;
 }
 
@@ -53,6 +66,9 @@ void Player::Update()
 	Move();
 
 	m_playerModelRender.Update();
+
+	/** 移動後の座標・回転に掃除機を合わせる*/
+	UpdateVaccumCleaner();
 }
 
 
@@ -111,6 +127,23 @@ void Player::Rotation()
 	
 	m_playerModelRender.SetRotation(m_rotation);
 }
+
+
+void Player::UpdateVaccumCleaner()
+{
+	if (m_vaccumCleaner == nullptr)
+	{
+		return;
+	}
+
+	/** オフセットをプレイヤーの向きに合わせて回転させる*/
+	Vector3 offset = VACCUM_OFFSET;
+	m_rotation.Apply(offset);
+
+	m_vaccumCleaner->SetPosition(m_transform.GetPosition() + offset);
+	m_vaccumCleaner->SetRotation(m_rotation);
+}
+
 
 
 
