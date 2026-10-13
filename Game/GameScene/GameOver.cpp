@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "GameOver.h"
 #include"GameScene/Title.h"
+#include"Game.h"
 namespace
 {
 	/** ゲームオーバー画像のファイルパス*/
@@ -38,15 +39,20 @@ void GameOver::Update()
 
 void GameOver::InGameOver()
 {
-	if (g_pad[0]->IsPressAnyKey() && !m_isGameOverToTitleButtonPressed)
+	if (g_pad[0]->IsPressAnyKey())
 	{
-		m_isGameOverToTitleButtonPressed = true;
-	}
+		/** タイトルを生成*/
+		NewGO<Title>(0, "title");
+		/** ゲーム本編を丸ごと削除(デストラクタで中身も消える)*/
+		Game* game = FindGO<Game>("game");
+		if (game != nullptr)
+		{
+			DeleteGO(game);
+		}
 
-	if (m_isGameOverToTitleButtonPressed)
-	{
-		m_title = NewGO<Title>(0, "title");
+		/** クリア画面自身も削除*/
 		DeleteGO(this);
+
 	}
 }
 

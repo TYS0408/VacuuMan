@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "Level3DRender/LevelRender.h"
+#include"sound/SoundSource.h"
 class Player;
 class GameCamera;
 class Stage;
@@ -11,8 +12,8 @@ class CleanRate;
 class Game : public IGameObject
 {
 public:
-	Game() {}
-	~Game() {}
+	Game();
+	~Game();
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc) {};
@@ -37,5 +38,9 @@ private:
 
 	/** 達成率を表すUI*/
 	CleanRate* m_cleanRate = nullptr;
+
+	/* インゲームBGM*/
+	SoundSource* m_gameBGM = nullptr;
+
 };
 

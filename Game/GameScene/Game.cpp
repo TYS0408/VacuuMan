@@ -7,6 +7,26 @@
 #include"Source/Actor/Character/Dog/Dog.h"
 #include"GameTimer/GameTimer.h"
 #include"CleanRate/CleanRate.h"
+#include"SoundManager/SoundManager.h"
+
+Game::Game()
+{
+
+}
+
+
+Game::~Game()
+{
+	DeleteGO(m_player);
+	DeleteGO(m_gameCamera);
+	DeleteGO(m_stage);
+	DeleteGO(m_trashManager);
+	DeleteGO(m_dog);
+	DeleteGO(m_timer);
+	DeleteGO(m_cleanRate);
+
+	DeleteGO(m_gameBGM);
+}
 bool Game::Start()
 {
 	m_player = NewGO<Player>(0, "player");
@@ -23,8 +43,9 @@ bool Game::Start()
 
 	m_cleanRate = NewGO<CleanRate>(0, "cleanrate");
 
-
-
+	/** BGMを流す*/
+	SoundManager* soundManager = FindGO<SoundManager>("soundmanager");
+	m_gameBGM = soundManager->PlayingBGM(SoundBGM::enInGameBGM, true);
 	return true;
 }
 

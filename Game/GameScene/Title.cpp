@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "Title.h"
 #include"Game.h"
+#include"SoundManager/SoundManager.h"
 namespace
 {
 	/** タイトルの画像ファイルパス*/
@@ -19,17 +20,28 @@ Title::Title()
 
 Title::~Title()
 {
-
+	DeleteGO(m_titleBGM);
 }
 
 bool Title::Start()
 {
 	m_titleSpriteRender.Init(GAMETITLE, GAMETITLE_WIDTH, GAMETITLE_HEIGHT);
+	m_soundManager = FindGO<SoundManager>("soundmanager");
+	m_titleBGM = m_soundManager->PlayingBGM(SoundBGM::enTitleBGM, true);
 	return true;
 }
 
 void Title::Update()
 {
+	/** ゲームが終わって再度ゲームを始める際に、
+	/*タイトルとゲームオーバー・クリアがAnyPressKeyなのでそのままスキップされてしまうのを防ぐため
+	生成直後は入力を受け付けない*/
+	if (m_inputWaitTimer > 0.0f)
+	{
+		m_inputWaitTimer -= g_gameTime->GetFrameDeltaTime();
+		return;
+	}
+
 	InTitle();
 	m_titleSpriteRender.Update();
 }

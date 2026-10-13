@@ -4,7 +4,7 @@
 #include<InitGUID.h>
 #include<dxgidebug.h>
 #include"GameScene/Title.h"
-#include "Game.h"
+#include "SoundManager/SoundManager.h"
 
 
 
@@ -35,6 +35,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//Gameクラスのオブジェクトを作成。
 	NewGO<Title>(0, "title");
+
+	/** SoundManagerの生成と同時にポインタを保存 */
+	SoundManager* soundManager = NewGO<SoundManager>(0, "soundmanager");
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！

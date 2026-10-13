@@ -224,12 +224,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CleanRate\CleanRate.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera\GameCamera.cpp" />
+    <ClCompile Include="GameScene\Game.cpp" />
+    <ClCompile Include="GameScene\GameClear.cpp" />
     <ClCompile Include="GameScene\GameOver.cpp" />
     <ClCompile Include="GameScene\Title.cpp" />
     <ClCompile Include="GameTimer\GameTimer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SoundManager\SoundManager.cpp" />
     <ClCompile Include="Source\Actor\Actor.cpp" />
     <ClCompile Include="Source\Actor\Character\Character.cpp" />
     <ClCompile Include="Source\Actor\Character\Dog\Dog.cpp" />
@@ -248,11 +250,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CleanRate\CleanRate.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera\GameCamera.h" />
+    <ClInclude Include="GameScene\Game.h" />
+    <ClInclude Include="GameScene\GameClear.h" />
     <ClInclude Include="GameScene\GameOver.h" />
     <ClInclude Include="GameScene\Title.h" />
     <ClInclude Include="GameTimer\GameTimer.h" />
+    <ClInclude Include="SoundManager\SoundManager.h" />
     <ClInclude Include="Source\Actor\Actor.h" />
     <ClInclude Include="Source\Actor\Character\Character.h" />
     <ClInclude Include="Source\Actor\Character\Dog\Dog.h" />

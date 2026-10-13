@@ -5,8 +5,8 @@
 class TrashManager : public Actor
 {
 public:
-	TrashManager() {};
-	~TrashManager() {};
+	TrashManager();
+	~TrashManager();
 
 public:
 	bool Start()override;

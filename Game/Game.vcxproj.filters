@@ -40,6 +40,9 @@
     <Filter Include="CleanRate">
       <UniqueIdentifier>{33b075c8-5c0c-4cd2-991e-1eeb58c64b98}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SoundManager">
+      <UniqueIdentifier>{27122b16-303e-4b3a-9f24-115ca59c83b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -47,7 +50,6 @@
     <ClCompile Include="system\system.cpp">
       <Filter>system</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Source\Actor\Actor.cpp">
       <Filter>Source\Actor</Filter>
     </ClCompile>
@@ -90,13 +92,21 @@
     <ClCompile Include="CleanRate\CleanRate.cpp">
       <Filter>CleanRate</Filter>
     </ClCompile>
+    <ClCompile Include="GameScene\Game.cpp">
+      <Filter>GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene\GameClear.cpp">
+      <Filter>GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager\SoundManager.cpp">
+      <Filter>SoundManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h">
       <Filter>system</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h" />
     <ClInclude Include="Source\Actor\Actor.h">
       <Filter>Source\Actor</Filter>
     </ClInclude>
@@ -138,6 +148,15 @@
     </ClInclude>
     <ClInclude Include="CleanRate\CleanRate.h">
       <Filter>CleanRate</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene\Game.h">
+      <Filter>GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene\GameClear.h">
+      <Filter>GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager\SoundManager.h">
+      <Filter>SoundManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

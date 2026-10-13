@@ -1,5 +1,8 @@
 ﻿#include "stdafx.h"
 #include "GameTimer.h"
+#include"Source/Actor/Stage/TrashManager.h"
+#include"GameScene/GameClear.h"
+#include"GameScene/GameOver.h"
 namespace
 {
 	/** 数字の画像をロード*/
@@ -19,6 +22,9 @@ namespace
 
 	/** 三桁を描画する画像の大きさ*/
 	const Vector3 DIGIT_SCALE = { 1.0f,1.0f, 1.0f };
+
+	/** ゲームクリアに必要な達成率*/
+	constexpr float CLEAR_CLEAN_RATE = 0.8f;
 }
 
 
@@ -35,6 +41,9 @@ GameTimer::~GameTimer()
 
 bool GameTimer::Start()
 {
+	/** ここでトラッシュマネージャーの情報を取得する*/
+	m_trashManager = FindGO<TrashManager>("trashmanager");
+
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 10; j++)
@@ -50,6 +59,12 @@ bool GameTimer::Start()
 
 void GameTimer::Update()
 {
+	/** タイムアップ時で判定していたらタイマーを進めない*/
+	if (m_isTimeUpChecked)
+	{
+		return;
+	}
+
 	TextTimer();
 
 	/** 全ての画像スプライト(30個)を更新 */
@@ -59,6 +74,12 @@ void GameTimer::Update()
 		{
 			m_digitSpriteRender[i][j].Update();
 		}
+	}
+
+	/** 時間切れになったらCheckTimeUpを呼ぶ*/
+	if (m_timer <= 0.0f)
+	{
+		CheckTimeUp();
 	}
 }
 
@@ -111,6 +132,31 @@ void GameTimer::TextTimer()
 			m_digitSpriteRender[1][tens].SetPosition({ 0.0f,460.0f,0.0f });
 			m_digitSpriteRender[2][ones].SetPosition({ 50.0f,460.0f,0.0f });
 	}
+}
+
+void GameTimer::CheckTimeUp()
+{
+	/** タイムアップフラグをtrueにする*/
+	m_isTimeUpChecked = true;
+	/** トラッシュマネージャーが存在していないと判定できないので
+	/*存在していない場合はこの下の処理を飛ばす。*/
+	if (m_trashManager == nullptr)
+	{
+		return;
+	}
+	/** 部屋の綺麗さが80%以上だったら*/
+	if (m_trashManager->GetCleanRate() >= CLEAR_CLEAN_RATE)
+	{
+		/** ゲームクリアを生成*/
+		NewGO<GameClear>(0, "gameclear");
+	}
+
+	else
+	{
+		/** 80%以下だったらゲームオーバー*/
+		NewGO<GameOver>(0, "gameover");
+	}
+
 }
 
 

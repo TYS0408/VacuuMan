@@ -41,6 +41,22 @@ namespace
 
 }
 
+TrashManager::TrashManager()
+{
+
+}
+
+
+TrashManager::~TrashManager()
+{
+	/** 吸い込まれずに残っているゴミを全て削除*/
+	for (Trash* trash : m_trashList)
+	{
+		DeleteGO(trash);
+	}
+	m_trashList.clear();
+}
+
 
 bool TrashManager::IsFloorOnly(float x, float z)const
 {
