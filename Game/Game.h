@@ -6,6 +6,7 @@ class GameCamera;
 class Stage;
 class TrashManager;
 class Dog;
+class GameTimer;
 class Game : public IGameObject
 {
 public:
@@ -30,5 +31,7 @@ private:
 	/** ドッグ*/
 	Dog* m_dog = nullptr;
 
+	/** タイマー*/
+	GameTimer* m_timer = nullptr;
 };
 

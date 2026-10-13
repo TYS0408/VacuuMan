@@ -225,7 +225,9 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera\GameCamera.cpp" />
+    <ClCompile Include="GameScene\GameOver.cpp" />
     <ClCompile Include="GameScene\Title.cpp" />
+    <ClCompile Include="GameTimer\GameTimer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Source\Actor\Actor.cpp" />
     <ClCompile Include="Source\Actor\Character\Character.cpp" />
@@ -246,7 +248,9 @@
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera\GameCamera.h" />
+    <ClInclude Include="GameScene\GameOver.h" />
     <ClInclude Include="GameScene\Title.h" />
+    <ClInclude Include="GameTimer\GameTimer.h" />
     <ClInclude Include="Source\Actor\Actor.h" />
     <ClInclude Include="Source\Actor\Character\Character.h" />
     <ClInclude Include="Source\Actor\Character\Dog\Dog.h" />

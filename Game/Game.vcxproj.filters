@@ -34,6 +34,9 @@
     <Filter Include="GameScene">
       <UniqueIdentifier>{55cacee6-8034-4609-be4e-ae2cf667f428}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameTimer">
+      <UniqueIdentifier>{c9efd899-f590-4d83-9a7d-eeb2495a63a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -75,6 +78,12 @@
     <ClCompile Include="GameScene\Title.cpp">
       <Filter>GameScene</Filter>
     </ClCompile>
+    <ClCompile Include="GameTimer\GameTimer.cpp">
+      <Filter>GameTimer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene\GameOver.cpp">
+      <Filter>GameScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -113,6 +122,12 @@
       <Filter>Source\Actor\Character\Dog</Filter>
     </ClInclude>
     <ClInclude Include="GameScene\Title.h">
+      <Filter>GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTimer\GameTimer.h">
+      <Filter>GameTimer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene\GameOver.h">
       <Filter>GameScene</Filter>
     </ClInclude>
   </ItemGroup>

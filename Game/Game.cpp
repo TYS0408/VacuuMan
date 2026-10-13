@@ -5,6 +5,7 @@
 #include"Source/Actor/Stage/Stage.h"
 #include"Source/Actor/Stage/TrashManager.h"
 #include"Source/Actor/Character/Dog/Dog.h"
+#include"GameTimer/GameTimer.h"
 bool Game::Start()
 {
 	m_player = NewGO<Player>(0, "player");
@@ -16,6 +17,9 @@ bool Game::Start()
 	m_trashManager = NewGO<TrashManager>(0, "trashmanager");
 
 	m_dog = NewGO<Dog>(0, "dog");
+
+	m_timer = NewGO<GameTimer>(0, "timer");
+
 
 	return true;
 }
