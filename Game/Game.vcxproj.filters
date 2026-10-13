@@ -37,6 +37,9 @@
     <Filter Include="GameTimer">
       <UniqueIdentifier>{c9efd899-f590-4d83-9a7d-eeb2495a63a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CleanRate">
+      <UniqueIdentifier>{33b075c8-5c0c-4cd2-991e-1eeb58c64b98}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -84,6 +87,9 @@
     <ClCompile Include="GameScene\GameOver.cpp">
       <Filter>GameScene</Filter>
     </ClCompile>
+    <ClCompile Include="CleanRate\CleanRate.cpp">
+      <Filter>CleanRate</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -129,6 +135,9 @@
     </ClInclude>
     <ClInclude Include="GameScene\GameOver.h">
       <Filter>GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="CleanRate\CleanRate.h">
+      <Filter>CleanRate</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

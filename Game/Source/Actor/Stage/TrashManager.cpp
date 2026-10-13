@@ -102,6 +102,7 @@ bool TrashManager::Start()
 			Trash* trash = NewGO<Trash>(0, "trash");
 			trash->Setup(static_cast<EnTrashType>(rt(m_random)), Vector3(x, FLOOR_Y, z));
 			m_trashList.push_back(trash);
+			m_totalCleanPoint += trash->GetCleanPoint();
 		}
 		return true;
 	}
@@ -144,6 +145,8 @@ void TrashManager::UpdateSuction()
 		/** 吸い込み完了*/
 		if (distance <= ABSORB_DISTANCE)
 		{
+			/** ポイントを加算*/
+			m_currentCleanPoint += trash->GetCleanPoint(); 
 			DeleteGO(trash);
 			it = m_trashList.erase(it);
 			continue;

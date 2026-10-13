@@ -13,6 +13,16 @@ public:
 	void Update()override;
 	void Render(RenderContext& rc)override;
 
+
+	/** 清潔度(0.0〜1.0)*/
+	float GetCleanRate() const
+	{
+		if (m_totalCleanPoint <= 0)
+		{
+			return 0.0f;
+		}
+		return static_cast<float>(m_currentCleanPoint) / m_totalCleanPoint;
+	}
 private:
 
 	/** その地点にゴミを置けるか(床以外の当たり判定が無いか)*/
@@ -36,5 +46,9 @@ private:
 private:
 	std::vector<Trash*>m_trashList;
 	std::mt19937 m_random;
+	/** 配置したゴミのポイント合計*/
+	int m_totalCleanPoint = 0;
+	/** 吸い込んだ分のポイント*/
+	int m_currentCleanPoint = 0; 
 };
 

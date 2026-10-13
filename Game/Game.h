@@ -7,6 +7,7 @@ class Stage;
 class TrashManager;
 class Dog;
 class GameTimer;
+class CleanRate;
 class Game : public IGameObject
 {
 public:
@@ -33,5 +34,8 @@ private:
 
 	/** タイマー*/
 	GameTimer* m_timer = nullptr;
+
+	/** 達成率を表すUI*/
+	CleanRate* m_cleanRate = nullptr;
 };
 
