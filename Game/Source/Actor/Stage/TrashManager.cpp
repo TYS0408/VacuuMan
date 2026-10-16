@@ -147,18 +147,20 @@ void TrashManager::UpdateSuction()
 	{
 		return;
 	}
-
+	/** 掃除機に吸い込み口の位置と向きを教えてもらう*/
 	const Vector3 nozzlePos = vaccum->GetSuctionPosition();
 	const Vector3 suctionDir = vaccum->GetSuctionDirection();
 	float dt = g_gameTime->GetFrameDeltaTime();
 
 	for (auto it = m_trashList.begin(); it != m_trashList.end();)
 	{
+		/** ゴミと距離を求める*/
 		Trash* trash = *it;
 		const Vector3 toTrash = trash->GetPosition() - nozzlePos;
 		const float distance = toTrash.Length();
 
 		/** 吸い込み完了*/
+		/** ゴミとの距離が40以下になったら*/
 		if (distance <= ABSORB_DISTANCE)
 		{
 			/** ポイントを加算*/
@@ -187,8 +189,11 @@ bool TrashManager::IsInSuctionRange(const Vector3& toTrash, float distance, cons
 	}
 
 	/** 角度チェック*/
+	/** ノズルからゴミへの矢印で長さは距離そのもの*/
 	Vector3 toTrashDir = toTrash;
+	/** 長さを1にそろえる*/
 	toTrashDir.Normalize();
+	/** cosfはラジアンを受け取る*/
 	const float cosLimit = cosf(Math::DegToRad(SUCTION_HALF_ANGLE_DEG));
 	return toTrashDir.Dot(suctionDir) >= cosLimit;
 
@@ -208,9 +213,4 @@ void TrashManager::PullTrash(Trash* trash, const Vector3& nozzlePos, float speed
 	Vector3 moveDir = nozzlePos - pos;
 	moveDir.Normalize();
 	trash->SetPosition(pos + moveDir * speed * deltaTime);
-}
-
-void TrashManager::Render(RenderContext& rc)
-{
-
 }

@@ -124,8 +124,11 @@ void CleanRate::Update()
 	if (m_trashManager == nullptr) return;
 
 	// 目標値に向かって滑らかに近づける
+	/** 清潔度を反映させる*/
 	const float target = m_trashManager->GetCleanRate();
 	const float dt = g_gameTime->GetFrameDeltaTime();
+	/**(target - m_displayRate)  = 目標まであとどれくらい残っているか*/
+	/**OLLOW_SPEED * dt → 1フレームで差の何割を埋めるか */
 	m_displayRate += (target - m_displayRate) * min(1.0f, FOLLOW_SPEED * dt);
 
 
@@ -135,11 +138,11 @@ void CleanRate::Update()
 
 	/** スケールをかける*/
 	m_barFillSpriteRender.SetScale(Vector3(rate, 1.0f, 1.0f));
-	// バーを右へ伸ばす
+	/** バーを右へ伸ばす*/ 
 	m_barFillSpriteRender.SetScale(Vector3(rate, 1.0f, 1.0f));
 	m_barFillSpriteRender.Update();
-
-	// 数字は実際の値(整数%)
+	/** 小数を「四捨五入して整数%」に変換する*/
+	/**数字は実際の値(整数%)*/
 	m_displayPercent = static_cast<int>(target * 100.0f + 0.5f);
 }
 

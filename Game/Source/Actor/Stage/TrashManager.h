@@ -11,7 +11,7 @@ public:
 public:
 	bool Start()override;
 	void Update()override;
-	void Render(RenderContext& rc)override;
+	void Render(RenderContext& rc)override {};
 
 
 	/** 清潔度(0.0〜1.0)*/

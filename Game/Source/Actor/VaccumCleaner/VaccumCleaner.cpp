@@ -27,7 +27,9 @@ void VaccumCleaner::Update()
 Vector3 VaccumCleaner::GetSuctionPosition()const
 {
 	Vector3 offset = NOZZLE_OFFSET;
+	/** 掃除機の向きに合わせて回転させる*/
 	m_rotation.Apply(offset);
+	/** 掃除機の位置を足す*/
 	return m_position + offset;
 }
 
@@ -35,6 +37,7 @@ Vector3 VaccumCleaner::GetSuctionPosition()const
 
 Vector3 VaccumCleaner::GetSuctionDirection()const
 {
+	/** Z方向(奥方向に吸い込む)*/
 	Vector3 dir = Vector3(0.0f, 0.0f, 1.0f);
 	m_rotation.Apply(dir);
 	return dir;

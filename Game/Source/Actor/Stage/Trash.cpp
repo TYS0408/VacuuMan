@@ -11,15 +11,15 @@ namespace
 	};
 
 
-	/** ゴミのモデルファイルパス*/
+	/** ゴミのモデルファイルパスと達成率のポイント*/
 	const TrashInfo TRASH_INFO[static_cast<int>(EnTrashType::enNum)] =
 	{
-
-		{"Assets/modelData/Trash/Bottle/Bottle.tkm", 10},
-		{"Assets/modelData/Trash/Box/Box.tkm", 5},
-		{"Assets/modelData/Trash/PizzaBox/Pizza.tkm", 7},
-		{"Assets/modelData/Trash/DrinkCan/SodaCan.tkm", 8},
-		{"Assets/modelData/Trash/FoodCan/Foodcan.tkm", 6},
+		
+		{"Assets/modelData/Trash/Bottle/Bottle.tkm", 3},
+		{"Assets/modelData/Trash/Box/Box.tkm", 20},
+		{"Assets/modelData/Trash/PizzaBox/Pizza.tkm", 10},
+		{"Assets/modelData/Trash/DrinkCan/SodaCan.tkm", 5},
+		{"Assets/modelData/Trash/FoodCan/Foodcan.tkm", 2},
 	};
 }
 
