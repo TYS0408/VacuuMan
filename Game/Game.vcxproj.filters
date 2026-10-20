@@ -101,6 +101,8 @@
     <ClCompile Include="SoundManager\SoundManager.cpp">
       <Filter>SoundManager</Filter>
     </ClCompile>
+    <ClCompile Include="Pause.cpp" />
+    <ClCompile Include="SoundPause.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -158,5 +160,7 @@
     <ClInclude Include="SoundManager\SoundManager.h">
       <Filter>SoundManager</Filter>
     </ClInclude>
+    <ClInclude Include="Pause.h" />
+    <ClInclude Include="SoundPause.h" />
   </ItemGroup>
 </Project>

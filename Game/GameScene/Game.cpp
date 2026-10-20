@@ -8,6 +8,7 @@
 #include"GameTimer/GameTimer.h"
 #include"CleanRate/CleanRate.h"
 #include"SoundManager/SoundManager.h"
+#include"Pause.h"
 
 Game::Game()
 {
@@ -26,6 +27,10 @@ Game::~Game()
 	DeleteGO(m_cleanRate);
 
 	DeleteGO(m_gameBGM);
+	if (m_pause != nullptr)
+	{
+		DeleteGO(m_pause);
+	}
 }
 bool Game::Start()
 {
@@ -43,6 +48,7 @@ bool Game::Start()
 
 	m_cleanRate = NewGO<CleanRate>(0, "cleanrate");
 
+	
 	/** BGMを流す*/
 	SoundManager* soundManager = FindGO<SoundManager>("soundmanager");
 	m_gameBGM = soundManager->PlayingBGM(SoundBGM::enInGameBGM, true);
@@ -51,6 +57,13 @@ bool Game::Start()
 
 void Game::Update()
 {
-	
+	if (g_pad[0]->IsTrigger(enButtonStart))
+	{
+		/** 「ゲームに戻る」でポーズを閉じるとPauseが残ってしまうので毎フレームFindGOをして存在確認する*/
+		if (FindGO<Pause>("pause") == nullptr)
+		{
+			NewGO<Pause>(0, "pause");
+		}
+	}
 }
 

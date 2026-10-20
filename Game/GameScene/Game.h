@@ -9,6 +9,7 @@ class TrashManager;
 class Dog;
 class GameTimer;
 class CleanRate;
+class Pause;
 class Game : public IGameObject
 {
 public:
@@ -39,6 +40,8 @@ private:
 	/** 達成率を表すUI*/
 	CleanRate* m_cleanRate = nullptr;
 
+	/** ポーズ*/
+	Pause* m_pause = nullptr;
 	/* インゲームBGM*/
 	SoundSource* m_gameBGM = nullptr;
 
