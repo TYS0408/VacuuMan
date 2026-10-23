@@ -92,7 +92,7 @@ namespace
 	constexpr float TICK_WIDTH = 100.0f;
 	constexpr float TICK_HEIGHT = 80.0f;
 	constexpr float TICK_FIRST_HEIGHT = 200.0f;
-	constexpr float TICK_MIDDLE_HEIGHT = 160.0f;
+	constexpr float TICK_MIDDLE_HEIGHT = 150.0f;
 	constexpr float TICK_LAST_HEIGHT = 200.0f;
 
 

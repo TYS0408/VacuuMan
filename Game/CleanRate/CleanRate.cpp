@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "CleanRate.h"
 #include"Source/Actor/Stage/TrashManager.h"
+#include"Pause/Pause.h"
 namespace
 {
 
@@ -62,9 +63,10 @@ CleanRate::~CleanRate()
 
 bool CleanRate::Start()
 {
-
+	/** トラッシュマネージャーの情報を取得*/
 	m_trashManager = FindGO<TrashManager>("trashmanager");
-
+	/** ポーズの情報を取得*/
+	m_pause = FindGO<Pause>("pause");
 	/** 白い背景画像の初期化*/
 	m_WhiteSpriteRender.Init(WHITE_FILEPATH, 600, 200);
 	/** 「現在の清潔度」画像の初期化*/
@@ -121,8 +123,16 @@ bool CleanRate::Start()
 
 void CleanRate::Update()
 {
-	if (m_trashManager == nullptr) return;
+	/** ポーズ中は処理を止める*/
+	if (m_pause->GetIsPause())
+	{
+		return;
+	}
 
+	if (m_trashManager == nullptr)
+	{
+		return;
+	}
 	// 目標値に向かって滑らかに近づける
 	/** 清潔度を反映させる*/
 	const float target = m_trashManager->GetCleanRate();
@@ -149,6 +159,11 @@ void CleanRate::Update()
 
 void CleanRate::Render(RenderContext& rc)
 {
+	/** ポーズ中は描画もしない*/
+	if (m_pause->GetIsPause())
+	{
+		return;
+	}
 	m_WhiteSpriteRender.Draw(rc);
 	m_currentCleanSpriteRender.Draw(rc);
 	m_achievementSpriteRender.Draw(rc);

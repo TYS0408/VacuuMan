@@ -2,6 +2,7 @@
 #include "Source/Actor/Character/Character.h"
 #include"Source/Actor/VaccumCleaner/VaccumCleaner.h"
 /**　プレイヤークラス*/
+class Pause;
 class Player : public Character
 {
 public:
@@ -38,6 +39,9 @@ private:
 	ModelRender m_playerModelRender;
 	/** プレイヤーのコントローラー*/
 	CharacterController m_characterController;
+
+	/** ポーズ*/
+	Pause* m_pause = nullptr;
 	/** プレイヤーの回転*/
 	Quaternion m_rotation = Quaternion::Identity;
 	/** プレイヤーの移動速度*/

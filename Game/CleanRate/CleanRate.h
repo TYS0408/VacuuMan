@@ -1,5 +1,6 @@
 ﻿#pragma once
 class TrashManager;
+class Pause;
 class CleanRate : public IGameObject
 {
 	public:
@@ -33,8 +34,10 @@ private:
 	SpriteRender m_percentSpriteRender;
 	/** 「桁」「数字」の順番で持つ*/
 	SpriteRender m_numberSpriteRender[DIGIT_PLACE][DIGIT_NUM];
-
+	/** トラッシュマネージャー*/
 	TrashManager* m_trashManager = nullptr;
+	/** ポーズ*/
+	Pause* m_pause = nullptr;
 	/** 表示中の%*/
 	 int m_displayPercent = 0;
 	 /** 表示中の割合*/

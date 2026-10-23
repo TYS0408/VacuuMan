@@ -231,9 +231,9 @@
     <ClCompile Include="GameScene\Title.cpp" />
     <ClCompile Include="GameTimer\GameTimer.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Pause.cpp" />
+    <ClCompile Include="Pause\Pause.cpp" />
+    <ClCompile Include="Pause\SoundPause.cpp" />
     <ClCompile Include="SoundManager\SoundManager.cpp" />
-    <ClCompile Include="SoundPause.cpp" />
     <ClCompile Include="Source\Actor\Actor.cpp" />
     <ClCompile Include="Source\Actor\Character\Character.cpp" />
     <ClCompile Include="Source\Actor\Character\Dog\Dog.cpp" />
@@ -258,9 +258,9 @@
     <ClInclude Include="GameScene\GameOver.h" />
     <ClInclude Include="GameScene\Title.h" />
     <ClInclude Include="GameTimer\GameTimer.h" />
-    <ClInclude Include="Pause.h" />
+    <ClInclude Include="Pause\Pause.h" />
+    <ClInclude Include="Pause\SoundPause.h" />
     <ClInclude Include="SoundManager\SoundManager.h" />
-    <ClInclude Include="SoundPause.h" />
     <ClInclude Include="Source\Actor\Actor.h" />
     <ClInclude Include="Source\Actor\Character\Character.h" />
     <ClInclude Include="Source\Actor\Character\Dog\Dog.h" />

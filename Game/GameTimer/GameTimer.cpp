@@ -3,6 +3,7 @@
 #include"Source/Actor/Stage/TrashManager.h"
 #include"GameScene/GameClear.h"
 #include"GameScene/GameOver.h"
+#include"Pause/Pause.h"
 namespace
 {
 	/** 数字の画像をロード*/
@@ -22,6 +23,9 @@ namespace
 
 	/** 三桁を描画する画像の大きさ*/
 	const Vector3 DIGIT_SCALE = { 1.0f,1.0f, 1.0f };
+	constexpr float NUMBER_WIDTH = 120.0f;
+	constexpr float NUMBER_HEIGHT = 120.0f;
+
 
 	/** ゲームクリアに必要な達成率*/
 	constexpr float CLEAR_CLEAN_RATE = 0.8f;
@@ -44,11 +48,13 @@ bool GameTimer::Start()
 	/** ここでトラッシュマネージャーの情報を取得する*/
 	m_trashManager = FindGO<TrashManager>("trashmanager");
 
+	/** ここでPauseの情報を取得*/
+	m_pause = FindGO<Pause>("pause");
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			m_digitSpriteRender[i][j].Init(m_digitPaths[j], 150, 150);
+			m_digitSpriteRender[i][j].Init(m_digitPaths[j], NUMBER_WIDTH, NUMBER_HEIGHT);
 			m_digitSpriteRender[i][j].SetScale({ 0.0f, 0.0f, 0.0f }); // 最初は非表示
 		}
 		
@@ -59,6 +65,12 @@ bool GameTimer::Start()
 
 void GameTimer::Update()
 {
+	/** ポーズ中はタイマーを進めない*/
+	if (m_pause->GetIsPause())
+	{
+		return;
+	}
+
 	/** タイムアップ時で判定していたらタイマーを進めない*/
 	if (m_isTimeUpChecked)
 	{
@@ -128,9 +140,9 @@ void GameTimer::TextTimer()
 
 
 			/** 位置設定 */
-			m_digitSpriteRender[0][hundreds].SetPosition({ -50.0f,460.0f,0.0f });
-			m_digitSpriteRender[1][tens].SetPosition({ 0.0f,460.0f,0.0f });
-			m_digitSpriteRender[2][ones].SetPosition({ 50.0f,460.0f,0.0f });
+			m_digitSpriteRender[0][hundreds].SetPosition({ -50.0f,500.0f,0.0f });
+			m_digitSpriteRender[1][tens].SetPosition({ 0.0f,500.0f,0.0f });
+			m_digitSpriteRender[2][ones].SetPosition({ 50.0f,500.0f,0.0f });
 	}
 }
 
@@ -162,6 +174,11 @@ void GameTimer::CheckTimeUp()
 
 void GameTimer::Render(RenderContext& rc)
 {
+	/** Pause中は描画しない*/
+	if (m_pause->GetIsPause())
+	{
+		return;
+	}
 	/** 制限時間の描画*/
 	for (int i = 0; i < 3; i++)
 	{

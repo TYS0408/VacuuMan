@@ -59,14 +59,22 @@ bool Pause::Start()
 	/** ゲームの情報を取得*/
 	m_game = FindGO<Game>("game");
 	m_choiceSound = FindGO<SoundManager>("soundmanager");
-	m_isPause = true;
+	m_isPause = false;
 	return true;
 }
 
 
 void Pause::Update()
 {
-	
+	if (!m_isPause)
+	{
+		if (g_pad[0]->IsTrigger(enButtonStart))
+
+		{
+			Open();
+		}
+		return;
+	}
 
 	/** 上下の入力で選択している場所の番号を変える*/
 	if (g_pad[0]->IsTrigger(enButtonDown))
@@ -112,8 +120,7 @@ void Pause::Select()
 		if (m_countNumber == 0)
 		{
 			/** ゲームに戻る*/
-			m_isPause = false;
-			DeleteGO(this);
+			Close();
 			return;
 
 		}
@@ -138,9 +145,25 @@ void Pause::Select()
 	}
 }
 
+void Pause::Open()
+{
+	/** Pause中はフラグをtrueにしてm_countNumberを初期化する*/
+	m_isPause = true;
+	m_countNumber = 0;
+}
+
+void Pause::Close()
+{
+	m_isPause = false;
+}
 
 void Pause::Render(RenderContext& rc)
 {
+
+	if (!m_isPause)
+	{
+		return;
+	}
 	/** 選択中は明るく、それ以外は暗くする */
 	const Vector4 SELECT_COLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	const Vector4 NOT_SELECT_COLOR(0.5f, 0.5f, 0.5f, 1.0f);

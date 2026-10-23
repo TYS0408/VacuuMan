@@ -43,6 +43,11 @@ private:
 	/** 選択された後の処理*/
 	void Choice();
 
+	/** ポーズ画面を開く処理*/
+	void Open();
+	/** ポーズ画面を閉じる*/
+	void Close();
+	
 private:
 	/** 選択中の画面を表示させる番号*/
 	int m_countNumber = 0;

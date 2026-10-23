@@ -1,5 +1,6 @@
 ﻿#pragma once
 class TrashManager;
+class Pause;
 class GameTimer : public IGameObject
 {
 public:
@@ -31,6 +32,8 @@ private:
 	/** 部屋の綺麗さを取得するためのTrashManager*/
 	TrashManager* m_trashManager = nullptr;
 
+	/** ポーズ*/
+	Pause* m_pause = nullptr;
 	/** タイムアップ判定が行われたか*/
 	bool m_isTimeUpChecked = false;
 

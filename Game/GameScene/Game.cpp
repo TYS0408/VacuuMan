@@ -8,7 +8,7 @@
 #include"GameTimer/GameTimer.h"
 #include"CleanRate/CleanRate.h"
 #include"SoundManager/SoundManager.h"
-#include"Pause.h"
+#include"Pause/Pause.h"
 
 Game::Game()
 {
@@ -44,6 +44,9 @@ bool Game::Start()
 
 	m_dog = NewGO<Dog>(0, "dog");
 
+
+	m_pause = NewGO<Pause>(0, "pause");
+
 	m_timer = NewGO<GameTimer>(0, "timer");
 
 	m_cleanRate = NewGO<CleanRate>(0, "cleanrate");
@@ -57,13 +60,6 @@ bool Game::Start()
 
 void Game::Update()
 {
-	if (g_pad[0]->IsTrigger(enButtonStart))
-	{
-		/** 「ゲームに戻る」でポーズを閉じるとPauseが残ってしまうので毎フレームFindGOをして存在確認する*/
-		if (FindGO<Pause>("pause") == nullptr)
-		{
-			NewGO<Pause>(0, "pause");
-		}
-	}
+	
 }
 

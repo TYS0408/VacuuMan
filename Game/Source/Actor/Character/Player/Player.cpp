@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "Player.h"
 #include"Source/Actor/VaccumCleaner/VaccumCleaner.h"
+#include"Pause/Pause.h"
 namespace
 {
 	/** プレイヤーモデルのファイルパス*/
@@ -53,6 +54,8 @@ bool Player::Start()
 
 	/** 掃除機を生成*/
 	m_vaccumCleaner = NewGO<VaccumCleaner>(0, "vaccumcleaner");
+
+	m_pause = FindGO<Pause>("pause");
 	UpdateVaccumCleaner();
 
 	return true;
@@ -61,6 +64,11 @@ bool Player::Start()
 
 void Player::Update()
 {
+	/** ポーズ中は処理を止める*/
+	if(m_pause->GetIsPause())
+	{
+		return;
+	}
 	Rotation();
 
 	Move();
