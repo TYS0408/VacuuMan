@@ -1,6 +1,8 @@
 ﻿#pragma once
 class TrashManager;
 class Pause;
+
+
 class CleanRate : public IGameObject
 {
 	public:
@@ -19,17 +21,17 @@ private:
 	/** 百・十・一*/
 	static const int DIGIT_PLACE = 3;
 
-	
-	/** 背景の白い画像*/
-	SpriteRender m_WhiteSpriteRender;	
-	/** 「現在の清潔度」を表す文字の画像*/
-	SpriteRender m_currentCleanSpriteRender;
+	/** ゲージの分割数(1％刻み)*/
+	static constexpr int GAUGE_SEGMENT = 100;
+	/** 円形ゲージの土台*/
+	SpriteRender m_circleBackGroundSpriteRender;
+	/** 円形ゲージ*/
+	SpriteRender m_gaugeSegmentSpriteRender[GAUGE_SEGMENT];
+
+	/** 掃除機のアイコン*/
+	SpriteRender m_vaccumClenerIconSpriteRender;
 	/** 「達成率」を表す文字の画像*/
 	SpriteRender m_achievementSpriteRender;
-	/** 紺色バー(黄色の後ろに出す)画像*/
-	SpriteRender m_barBackSpriteRender;
-	/** 黄色バー(紺色バーの上に出す)画像*/
-	SpriteRender m_barFillSpriteRender;
 	/** 「%」を表す画像*/
 	SpriteRender m_percentSpriteRender;
 	/** 「桁」「数字」の順番で持つ*/
@@ -42,5 +44,7 @@ private:
 	 int m_displayPercent = 0;
 	 /** 表示中の割合*/
 	 float m_displayRate = 0.0f;
+
+	 float m_gaugeRate = 0.0f;
 };
 

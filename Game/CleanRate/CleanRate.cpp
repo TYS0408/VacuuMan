@@ -4,49 +4,60 @@
 #include"Pause/Pause.h"
 namespace
 {
-
+	
 	/** 数字の画像をロード*/
 	const char* DIGIT_PATHS[10] =
 	{
-		"Assets/Sprite/Number/Number_Zero.dds",
-		"Assets/Sprite/Number/Number_One.dds",
-		"Assets/Sprite/Number/Number_Two.dds",
-		"Assets/Sprite/Number/Number_Three.dds",
-		"Assets/Sprite/Number/Number_Four.dds",
-		"Assets/Sprite/Number/Number_Five.dds",
-		"Assets/Sprite/Number/Number_Six.dds",
-		"Assets/Sprite/Number/Number_Seven.dds",
-		"Assets/Sprite/Number/Number_Eight.dds",
-		"Assets/Sprite/Number/Number_Nine.dds",
+		"Assets/Sprite/CleanRate/Number/Number_Zero.dds",
+		"Assets/Sprite/CleanRate/Number/Number_One.dds",
+		"Assets/Sprite/CleanRate/Number/Number_Two.dds",
+		"Assets/Sprite/CleanRate/Number/Number_Three.dds",
+		"Assets/Sprite/CleanRate/Number/Number_Four.dds",
+		"Assets/Sprite/CleanRate/Number/Number_Five.dds",
+		"Assets/Sprite/CleanRate/Number/Number_Six.dds",
+		"Assets/Sprite/CleanRate/Number/Number_Seven.dds",
+		"Assets/Sprite/CleanRate/Number/Number_Eight.dds",
+		"Assets/Sprite/CleanRate/Number/Number_Nine.dds",
 	};
 
-	/** 背景の白い画像ファイルパス*/
-	const char* WHITE_FILEPATH = "Assets/Sprite/CleanRate/White.dds";
-	/** パラメーターで後ろに出す画像ファイルパス*/
-	const char* BACKBAR_FILEPATH = "Assets/Sprite/CleanRate/DarkBlue_Bar.dds";
-	/** パラメーターで前に出すファイルパス*/
-	const char* FILLBAR_FILEPATH = "Assets/Sprite/CleanRate/Yellow_Bar.dds";
+	/** 円形ゲージ用の背景ファイルパス*/
+	const char* CIRCLE_BACKGROUND_FILEPATH = "Assets/Sprite/CleanRate/Circular_BackGround_Square.dds";
+	/** 円形ゲージ用のファイルパス*/
+	const char* CIRCLE_WEDGE_FILEPATH = "Assets/Sprite/CleanRate/Circular_Wedge.dds";
+	/** 掃除機のアイコン*/
+	const char* VACCUMCLEANAR_FILEPATH = "Assets/Sprite/CleanRate/VaccumCleaner_Image.dds";
 	/** 「%」を表す画像ファイルパス*/
 	const char* PERCENTRATE_FILEPATH = "Assets/Sprite/CleanRate/Rate.dds";
-	/** 「現在の清潔度」を表す画像ファイルパス*/
-	const char* CURRENTCLEAN_FILEPATH = "Assets/Sprite/CleanRate/CurrentCleanRate.dds";
 	/** 「達成率」を表す画像ファイルパス*/
 	const char* ACHIEVEMENTRATE_FILEPATH = "Assets/Sprite/CleanRate/AchievementRate.dds";
+
+	/** 円の大きさ*/
+	constexpr float CIRCLE_SIZE = 200.0f;
+	/** 中心位置*/
+	const Vector3 CIRCLE_POS = {-860.0f, 440.0f, 0.0f};
+	/** 掃除機アイコン(円の上半分)*/
+	constexpr float ICON_W = 150.0f;
+	constexpr float ICON_H = 100.0f;
+	const Vector3 ICON_POS(-860.0f, 490.0f, 0.0f);
+
+	/** 「数字」*/
+	const Vector3 ONES_POS(-860.0f, 390.0f, 0.0f);
 	/** 横幅*/
-	constexpr float WIDTH = 128;
+	constexpr float DIGIT_W = 80.0f;
 	/** 縦幅*/
-	constexpr float HIGHT = 128;
-
-
-	/** バーの左端の位置と大きさ*/
-	const Vector3 BAR_LEFT_POS(-800.0f, 420.0f, 0.0f);
-	constexpr float BAR_W = 300.0f;
-	constexpr float BAR_H = 50.0f;
-	/** 一の位の数字の位置と、桁の間隔*/
-	const Vector3 ONES_POS(-550.0f, 450.0f, 0.0f);
-	constexpr float DIGIT_W = 50.0f;
-	constexpr float DIGIT_H = 50.0f;
+	constexpr float DIGIT_H = 80.0f;
+	/** 間隔*/
 	constexpr float DIGIT_SPACING = 20.0f;
+
+	/** 「％」*/
+	const Vector3 PERCENT_POS = { -840.0f,390.0f,0.0f };
+	constexpr float PERCENT_SIZE_W = 50.0f;
+	constexpr float PERCENT_SIZE_H = 50.0f;
+
+	/** 「達成率」*/
+	const Vector3 ACHIEVEMENT_POS(-860.0f, 440.0f, 0.0f);
+	constexpr float ACHIEVEMENT_W = 150.0f;
+	constexpr float ACHIEVEMENT_H = 100.0f;
 	/** 表示値が目標に追いつく速さ*/
 	constexpr float FOLLOW_SPEED = 3.0f;
 	
@@ -67,58 +78,53 @@ bool CleanRate::Start()
 	m_trashManager = FindGO<TrashManager>("trashmanager");
 	/** ポーズの情報を取得*/
 	m_pause = FindGO<Pause>("pause");
-	/** 白い背景画像の初期化*/
-	m_WhiteSpriteRender.Init(WHITE_FILEPATH, 600, 200);
-	/** 「現在の清潔度」画像の初期化*/
-	m_currentCleanSpriteRender.Init(CURRENTCLEAN_FILEPATH, 300, 70);
-	/** 「達成率」画像の初期化*/
-	m_achievementSpriteRender.Init(ACHIEVEMENTRATE_FILEPATH, 200, 150);
-	/** 後ろに出すバー画像の初期化*/
-	m_barBackSpriteRender.Init(BACKBAR_FILEPATH, BAR_W, BAR_H);
-	/** 前に出すバー画像の初期化*/
-	m_barFillSpriteRender.Init(FILLBAR_FILEPATH, BAR_W, BAR_H);
-	/** 「%」画像の初期化*/
-	m_percentSpriteRender.Init(PERCENTRATE_FILEPATH, 50, 50);
 
+	/** 円形ゲージの土台*/
+	m_circleBackGroundSpriteRender.Init(CIRCLE_BACKGROUND_FILEPATH, CIRCLE_SIZE, CIRCLE_SIZE);
+	m_circleBackGroundSpriteRender.SetPosition(CIRCLE_POS);
+	m_circleBackGroundSpriteRender.Update();
 
-	/** バーは左端を基準にする(右へ伸ばすために必須)*/
-	m_barBackSpriteRender.SetPivot(Vector2(0.0f, 0.5f));
-	m_barBackSpriteRender.SetPosition(BAR_LEFT_POS);
-	m_barFillSpriteRender.SetPivot(Vector2(0.0f, 0.5f));
-	m_barFillSpriteRender.SetPosition(BAR_LEFT_POS);
-	/** 最初は空にしておく*/
-	m_barFillSpriteRender.SetScale(Vector3(0.0f, 1.0f, 1.0f)); 
-
-	// ---- 数字(3桁×10種類) ----
-	for (int place = 0; place < DIGIT_PLACE; place++)
+	/** 円形ゲージの塗り(扇形を回転させて100枚並べる)*/
+	for (int i = 0; i < GAUGE_SEGMENT; i++)
 	{
-		for (int n = 0; n < DIGIT_NUM; n++)
-		{
-			m_numberSpriteRender[place][n].Init(DIGIT_PATHS[n], DIGIT_W, DIGIT_H);
-			Vector3 pos = ONES_POS;
-			/** 左ヘ並べる*/
-			pos.x -= DIGIT_SPACING * place; 
-			m_numberSpriteRender[place][n].SetPosition(pos);
-			m_numberSpriteRender[place][n].Update();
-		}
+		m_gaugeSegmentSpriteRender[i].Init(CIRCLE_WEDGE_FILEPATH, CIRCLE_SIZE, CIRCLE_SIZE);
+		m_gaugeSegmentSpriteRender[i].SetPosition(CIRCLE_POS);
+		/** プラスだと反時計回りになってしまうためマイナスをつけて時計回りにする*/
+		Quaternion rot;
+		rot.SetRotationDegZ(-360.0f / GAUGE_SEGMENT * i);
+		m_gaugeSegmentSpriteRender[i].SetRotation(rot);
+		m_gaugeSegmentSpriteRender[i].Update();
 	}
-	
+		/** 掃除機のアイコン*/
+		m_vaccumClenerIconSpriteRender.Init(VACCUMCLEANAR_FILEPATH, ICON_W, ICON_H);
+		m_vaccumClenerIconSpriteRender.SetPosition(ICON_POS);
+		m_vaccumClenerIconSpriteRender.Update();
 
-	/** 残りのパーツの位置*/
-	m_WhiteSpriteRender.SetPosition(Vector3(-730.0f, 465.0f, 0.0f));
-	m_currentCleanSpriteRender.SetPosition(Vector3(-800.0f, 510.0f, 0.0f));
-	m_achievementSpriteRender.SetPosition(Vector3(-880.0f, 445.0f, 0.0f));
-	m_percentSpriteRender.SetPosition(Vector3(-530.0f, 450.0f, 0.0f));
+		/** 達成率*/
+		m_achievementSpriteRender.Init(ACHIEVEMENTRATE_FILEPATH, ACHIEVEMENT_W, ACHIEVEMENT_H);
+		m_achievementSpriteRender.SetPosition(ACHIEVEMENT_POS);
+		m_achievementSpriteRender.Update();
+		/** 「%」画像の初期化*/
+		m_percentSpriteRender.Init(PERCENTRATE_FILEPATH, PERCENT_SIZE_W, PERCENT_SIZE_H);
+		m_percentSpriteRender.SetPosition(PERCENT_POS);
+		m_percentSpriteRender.Update();
 
-	m_WhiteSpriteRender.Update();
-	m_currentCleanSpriteRender.Update();
-	m_achievementSpriteRender.Update();
-	m_barBackSpriteRender.Update();
-	m_barFillSpriteRender.Update();
-	m_percentSpriteRender.Update();
+		// ---- 数字(3桁×10種類) ----
+		for (int place = 0; place < DIGIT_PLACE; place++)
+		{
+			for (int n = 0; n < DIGIT_NUM; n++)
+			{
+				m_numberSpriteRender[place][n].Init(DIGIT_PATHS[n], DIGIT_W, DIGIT_H);
+				Vector3 pos = ONES_POS;
+				/** 左ヘ並べる*/
+				pos.x -= DIGIT_SPACING * place;
+				m_numberSpriteRender[place][n].SetPosition(pos);
+				m_numberSpriteRender[place][n].Update();
+			}
+		}
 
-	return true;
-}
+		return true;
+	}
 
 
 void CleanRate::Update()
@@ -133,27 +139,20 @@ void CleanRate::Update()
 	{
 		return;
 	}
-	// 目標値に向かって滑らかに近づける
-	/** 清潔度を反映させる*/
+	
+	/** 目標に向かって滑らかに近づける*/
 	const float target = m_trashManager->GetCleanRate();
+	/** 同じ速さでゲージを動かすためにフレーム数によって動かす*/
 	const float dt = g_gameTime->GetFrameDeltaTime();
-	/**(target - m_displayRate)  = 目標まであとどれくらい残っているか*/
-	/**OLLOW_SPEED * dt → 1フレームで差の何割を埋めるか */
+	/** ここで残りが大きい時は早く、近づくほどゆっくりになるようにする*/
 	m_displayRate += (target - m_displayRate) * min(1.0f, FOLLOW_SPEED * dt);
 
-
-	/** 0〜1に収める*/
+	/** 0～1に収める*/
 	const float rate = max(0.0f, min(1.0f, m_displayRate));
+	m_gaugeRate = rate;
 
-
-	/** スケールをかける*/
-	m_barFillSpriteRender.SetScale(Vector3(rate, 1.0f, 1.0f));
-	/** バーを右へ伸ばす*/ 
-	m_barFillSpriteRender.SetScale(Vector3(rate, 1.0f, 1.0f));
-	m_barFillSpriteRender.Update();
-	/** 小数を「四捨五入して整数%」に変換する*/
-	/**数字は実際の値(整数%)*/
-	m_displayPercent = static_cast<int>(target * 100.0f + 0.5f);
+	/** 数字は実際の値(整数%)*/
+	m_displayPercent = static_cast<int>(m_displayRate * 100.0f + 0.5f);
 }
 
 
@@ -164,11 +163,22 @@ void CleanRate::Render(RenderContext& rc)
 	{
 		return;
 	}
-	m_WhiteSpriteRender.Draw(rc);
-	m_currentCleanSpriteRender.Draw(rc);
+	/** 奥から手前の順に描画させる*/
+	/** 背景*/
+	m_circleBackGroundSpriteRender.Draw(rc);
+	/** 塗りの部分*/
+	/** m_gaugeRateに応じた分だけ描画させる*/
+	/**m_gaugeRateが0ならdrawCountも0にする */
+	const int drawCount = static_cast<int>(m_gaugeRate * GAUGE_SEGMENT + 0.5f);
+	for (int i = 0; i < drawCount; i++)
+	{
+		m_gaugeSegmentSpriteRender[i].Draw(rc);
+	}
+	/** 掃除機のアイコン*/
+	m_vaccumClenerIconSpriteRender.Draw(rc);
+	/** 達成率*/
 	m_achievementSpriteRender.Draw(rc);
-	m_barBackSpriteRender.Draw(rc);
-	m_barFillSpriteRender.Draw(rc);
+	/**％*/
 	m_percentSpriteRender.Draw(rc);
 
 	/**一の位は常に表示 */ 
