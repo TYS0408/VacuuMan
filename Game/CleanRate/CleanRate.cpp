@@ -41,7 +41,7 @@ namespace
 	const Vector3 ICON_POS(-860.0f, 490.0f, 0.0f);
 
 	/** 「数字」*/
-	const Vector3 ONES_POS(-860.0f, 390.0f, 0.0f);
+	const Vector3 ONES_POS(-840.0f, 390.0f, 0.0f);
 	/** 横幅*/
 	constexpr float DIGIT_W = 70.0f;
 	/** 縦幅*/
@@ -50,7 +50,7 @@ namespace
 	constexpr float DIGIT_SPACING = 25.0f;
 
 	/** 「％」*/
-	const Vector3 PERCENT_POS = { -840.0f,390.0f,0.0f };
+	const Vector3 PERCENT_POS = { -820.0f,390.0f,0.0f };
 	constexpr float PERCENT_SIZE_W = 50.0f;
 	constexpr float PERCENT_SIZE_H = 50.0f;
 
