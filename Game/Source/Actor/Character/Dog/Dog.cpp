@@ -5,9 +5,15 @@ namespace
 {
 	/** ファイルパス*/
 	const char* FILEPATH = "Assets/modelData/Dog/Dog.tkm";
+
+	/** アニメーションのファイルパス*/
+	const char* ANIM_IDLE_PATH = "Assets/animData/Dog/Idle.tka";
+	const char* ANIM_RUN_PATH = "Assets/animData/Dog/Run.tka";
 	/** 初期座標*/
 	Vector3 POS = Vector3(0.0f, 0.0f, -200.0f);
 
+	/** 大きさ*/
+	Vector3 Scale = { 2.0f,2.0f,2.0f };
 	/** ステージの移動可能範囲*/
 	/** 床の範囲*/
 	/** Xの最大範囲と最小範囲*/
@@ -34,8 +40,16 @@ namespace
 bool Dog::Start()
 {
 	m_position = POS;
-	m_modelRender.Init(FILEPATH);
+	/** 立ちアニメーションクリップを読み込む*/
+	m_animationClips[enAnimationClip_Idle].Load(ANIM_IDLE_PATH);
+	m_animationClips[enAnimationClip_Idle].SetLoopFlag(true);
+	/** 走りアニメーションを読み込む*/
+	m_animationClips[enAnimatioinClip_Run].Load(ANIM_RUN_PATH);
+	m_animationClips[enAnimatioinClip_Run].SetLoopFlag(true);
+	/** モデルにアニメーションを渡す*/
+	m_modelRender.Init(FILEPATH,m_animationClips,enAnimationClip_Num,enModelUpAxisZ);
 	m_modelRender.SetPosition(POS);
+	m_modelRender.SetScale(Scale);
 	m_modelRender.Update();
 
 	DecideNextTarget();
@@ -83,6 +97,11 @@ void Dog::Update()
 	Move();
 	/** 回転*/
 	Rotation();
+
+	/** ステート管理*/
+	ManageState();
+	/** アニメーション*/
+	PlayAnimation();
 	m_modelRender.SetPosition(m_position);
 
 	m_modelRender.SetRotation(m_rotation);
@@ -145,10 +164,41 @@ void Dog::Rotation()
 	/** 進行方向を向く*/
 	/** XとZの値から何ラジアン回転した向きかという角度を求める関数*/
 	float angle = atan2f(m_moveDir.x, m_moveDir.z);
-	angle += Math::PI;
+	//angle += Math::PI;
 	m_rotation.SetRotationY(angle);
 }
 
+
+void Dog::ManageState()
+{
+	/** 犬が少しでも移動したら*/
+	if (m_waitTimer > 0.0f)
+	{
+		m_state = 0;
+	}
+	/** 移動していなかったら*/
+	else
+	{
+		m_state = 1;
+	}
+}
+
+void Dog::PlayAnimation()
+{
+	switch (m_state)
+	{
+	case 0:
+		m_modelRender.PlayAnimation(enAnimationClip_Idle);
+		break;
+
+	case 1:
+		m_modelRender.PlayAnimation(enAnimatioinClip_Run);
+		break;
+	default:
+		break;
+	}
+
+}
 void Dog::Render(RenderContext& rc)
 {
 	m_modelRender.Draw(rc);

@@ -43,11 +43,11 @@ namespace
 	/** 「数字」*/
 	const Vector3 ONES_POS(-860.0f, 390.0f, 0.0f);
 	/** 横幅*/
-	constexpr float DIGIT_W = 80.0f;
+	constexpr float DIGIT_W = 70.0f;
 	/** 縦幅*/
-	constexpr float DIGIT_H = 80.0f;
+	constexpr float DIGIT_H = 70.0f;
 	/** 間隔*/
-	constexpr float DIGIT_SPACING = 20.0f;
+	constexpr float DIGIT_SPACING = 25.0f;
 
 	/** 「％」*/
 	const Vector3 PERCENT_POS = { -840.0f,390.0f,0.0f };

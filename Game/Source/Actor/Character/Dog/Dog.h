@@ -20,13 +20,15 @@ private:
 	void DecideNextTarget();
 	/** 範囲内のランダムなfloat値を返す*/
 	float RandomRange(float minValue, float maxValue);
+	/** アニメーション再生*/
+	void PlayAnimation();
+	/** ステート管理*/
+	void ManageState();
 
 private:
 	ModelRender m_modelRender;
 
 	//CharacterController m_characterController;
-	/* 移動速度**/
-	Vector3 m_moveSpeed = Vector3::Zero;
 	/** 現在の位置*/
 	Vector3 m_position = Vector3::Zero;
 	/** 目標地点*/
@@ -37,7 +39,14 @@ private:
 	Quaternion m_rotation = Quaternion::Identity;
 	/** 到着後の待機時間*/
 	float m_waitTimer = 1.0f;
-
-
+	/** 現在のステート*/
+	uint8_t m_state = 0;
+	enum EnAnimationClip
+	{
+		enAnimationClip_Idle,
+		enAnimatioinClip_Run,
+		enAnimationClip_Num,
+	};
+	AnimationClip m_animationClips[enAnimationClip_Num];
 };
 

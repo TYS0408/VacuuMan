@@ -27,12 +27,18 @@ public:
 		return m_transform.GetPosition();
 	};
 
+
+
 private:
 	/** 持っている掃除機*/
 	VaccumCleaner* m_vaccumCleaner = nullptr;
 
 	/** 掃除機を持つ位置(プレイヤーから見たオフセット)*/
 	void UpdateVaccumCleaner();
+	/** ステート管理*/
+	void ManageState();
+	/** アニメーション更新*/
+	void PlayAnimation();
 
 	private:
 	/** プレイヤーのモデル*/
@@ -46,5 +52,13 @@ private:
 	Quaternion m_rotation = Quaternion::Identity;
 	/** プレイヤーの移動速度*/
 	Vector3 m_moveSpeed = Vector3::Zero;
-
+	/** ステート*/
+	uint8_t m_state = 0;
+	enum enAnimationClip
+	{
+		enAnimaitonClip_Idle,
+		enAnimationClip_Run,
+		enAnimationClip_Num,
+	};
+	AnimationClip m_animationClips[enAnimationClip_Num];
 };

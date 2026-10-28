@@ -6,6 +6,10 @@ namespace
 {
 	/** プレイヤーモデルのファイルパス*/
 	const char* FILEPATH = "Assets/modelData/Player/Player.tkm";
+
+	/** アニメーションのファイルパス*/
+	const char* ANIMATION_IDLE_PATH = "Assets/animData/Player/Idle.tka";
+	const char* ANIMATION_RUN_PATH = "Assets/animData/Player/Run.tka";
 	/** プレイヤーのコントローラーの横幅*/
 	constexpr float CHARACTER_CONTROLLER_WIDTH = 25.0f;
 	/** プレイヤーのコントローラーの高さ*/
@@ -25,7 +29,14 @@ namespace
 
 Player::Player()
 {
-	m_playerModelRender.Init(FILEPATH);
+	/** 立ちアニメーションを読み込む*/
+	m_animationClips[enAnimaitonClip_Idle].Load(ANIMATION_IDLE_PATH);
+	m_animationClips[enAnimaitonClip_Idle].SetLoopFlag(true);
+
+	/** 走りアニメーションを読み込む*/
+	m_animationClips[enAnimationClip_Run].Load(ANIMATION_RUN_PATH);
+	m_animationClips[enAnimationClip_Run].SetLoopFlag(true);
+	m_playerModelRender.Init(FILEPATH,m_animationClips,enAnimationClip_Num,enModelUpAxisZ);
 }
 
 Player::~Player()
@@ -69,10 +80,14 @@ void Player::Update()
 	{
 		return;
 	}
+	/** 回転*/
 	Rotation();
-
+	/** 移動*/
 	Move();
-
+	/** ステート*/
+	ManageState();
+	/** アニメーション更新*/
+	PlayAnimation();
 	m_playerModelRender.Update();
 
 	/** 移動後の座標・回転に掃除機を合わせる*/
@@ -152,7 +167,32 @@ void Player::UpdateVaccumCleaner()
 	m_vaccumCleaner->SetRotation(m_rotation);
 }
 
+void Player::ManageState()
+{
+	if (fabsf(m_moveSpeed.x) >= 0.000001 || fabsf(m_moveSpeed.z )>= 0.000001)
+	{
+		m_state = 1;
+	}
+	else
+	{
+		m_state = 0;
+	}
+}
 
+void Player::PlayAnimation()
+{
+	switch (m_state)
+	{
+	case 0:
+		m_playerModelRender.PlayAnimation(enAnimaitonClip_Idle);
+		break;
+
+	case 1:
+		m_playerModelRender.PlayAnimation(enAnimationClip_Run);
+	default:
+		break;
+	}
+}
 
 
 void Player::Render(RenderContext& rc)
