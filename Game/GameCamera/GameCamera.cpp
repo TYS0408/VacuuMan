@@ -5,12 +5,12 @@ namespace
 	/** 定点カメラの位置*/
 	constexpr float FIXED_CAMERA_POS_X = 0.0f;
 	constexpr float FIXED_CAMERA_POS_Y = 1000.0f;
-	constexpr float FIXED_CAMERA_POS_Z = 500.0f;
+	constexpr float FIXED_CAMERA_POS_Z = -550.0f;
 
 	/** 定点カメラの注視点*/
 	constexpr float FIXED_CAMERA_TARGET_X =0.0f;
 	constexpr float FIXED_CAMERA_TARGET_Y = 0.0f;
-	constexpr float FIXED_CAMERA_TARGET_Z = -400.0f;
+	constexpr float FIXED_CAMERA_TARGET_Z = 300.0f;
 
 	/** 近平面*/
 	constexpr float NEARPLANE = 1.0f;
@@ -40,7 +40,7 @@ bool GameCamera::Start()
 	/** 近平面を設定*/
 	g_camera3D->SetNear(NEARPLANE);
 
-	g_camera3D->SetViewAngle(Math::DegToRad(40.0f));
+	g_camera3D->SetViewAngle(Math::DegToRad(45.0f));
 
 	/** 遠平面を設定*/
 	g_camera3D->SetFar(FARPLANE);
@@ -55,6 +55,13 @@ void GameCamera::Update()
 
 void GameCamera::FixedView()
 {
+	Vector3 target = m_fixedTarget;
+	// 注視点から見たカメラの相対位置を180度回転(XとZを反転)
+	Vector3 offset = m_fixedPos - m_fixedTarget;
+	offset.x = -offset.x;
+	offset.z = -offset.z;
+
+
 	g_camera3D->SetPosition(m_fixedPos);
 	g_camera3D->SetTarget(m_fixedTarget);
 	g_camera3D->Update();

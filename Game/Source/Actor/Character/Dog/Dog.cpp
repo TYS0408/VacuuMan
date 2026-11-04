@@ -10,7 +10,7 @@ namespace
 	const char* ANIM_IDLE_PATH = "Assets/animData/Dog/Idle.tka";
 	const char* ANIM_RUN_PATH = "Assets/animData/Dog/Run.tka";
 	/** 初期座標*/
-	Vector3 POS = Vector3(0.0f, 0.0f, -200.0f);
+	Vector3 POS = Vector3(0.0f, 0.0f, 100.0f);
 
 	/** 大きさ*/
 	Vector3 Scale = { 2.0f,2.0f,2.0f };
@@ -20,8 +20,8 @@ namespace
 	constexpr float AREA_MIN_X = -400.0f;
 	constexpr float AREA_MAX_X = 400.0f;
 	/** Xの最大範囲と最小範囲*/
-	constexpr float AREA_MIN_Z = -800.0f;
-	constexpr float AREA_MAX_Z = -100.0f;
+	constexpr float AREA_MIN_Z = -100.0f;
+	constexpr float AREA_MAX_Z = 800.0f;
 	/** 一秒あたりの移動量*/
 	constexpr float MOVE_SPEED = 600.0f;
 	/** この距離まで言ったら到達したとみなす*/

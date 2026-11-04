@@ -3,7 +3,7 @@
 namespace
 {
 	/** ステージのファイルパス*/
-	const char* STAGE_FILE_PATH = "Assets/modelData/Stage/Stage.tkm";
+	const char* STAGE_FILE_PATH = "Assets/modelData/Stage/Stage_β.tkm";
 
 	/** ステージの座標*/
 	Vector3 STAGE_POS = Vector3(0.0f, 0.0f, 0.0f);
@@ -17,10 +17,11 @@ bool Stage::Start()
 	/** ステージの位置を設定 */
 	m_stageModelRender.SetPosition(STAGE_POS);
 
+	m_stageModelRender.Update();
 	/** 当たり判定*/
 	m_stagePhysicsObject.CreateFromModel(
-		m_stageModelRender.GetModel(),
-		m_stageModelRender.GetModel().GetWorldMatrix());
+	m_stageModelRender.GetModel(),
+	m_stageModelRender.GetModel().GetWorldMatrix());
 	return true;
 }
 
