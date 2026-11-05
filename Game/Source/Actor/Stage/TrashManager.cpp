@@ -9,7 +9,7 @@ namespace
 	/** 床の範囲*/
 	/** Xの最大範囲と最小範囲*/
 	constexpr float FLOOR_MIN_X = -500.0f;
-	constexpr float FLOOR_MAX_X = 500.0f;
+	constexpr float FLOOR_MAX_X = 350.0f;
 	/** Xの最大範囲と最小範囲*/
 	constexpr float FLOOR_MIN_Z = 0.0f;
 	constexpr float FLOOR_MAX_Z = 1000.0f;
@@ -17,11 +17,16 @@ namespace
 	constexpr float FLOOR_Y_MIN = -15.0f;
 	constexpr float FLOOR_Y_MAX = 5.0f;
 
-	/** 床の中心X座標*/
-	constexpr float FLOOR_CENTER_X = (FLOOR_MIN_X + FLOOR_MAX_X) * 0.5f;
-	/** 床の中心Z座標*/
-	constexpr float FLOOR_CENTER_Z = (FLOOR_MIN_Z + FLOOR_MAX_Z) * 0.5f;
+	/** ゴミの半径(周囲チェック用)*/
+	constexpr float TRASH_RADIUS = 20.0f;
+	/** 十字エフェクトの中心*/
+	constexpr float DIVIDE_X = 0.0f;
+	constexpr float DIVIDE_Z = 400.0f; 
 
+	/** 十字キの半分の大きさ*/
+	constexpr float CROSS_HALF_WIDTH = 30.0f;
+	/** 分割線からゴミを離す距離*/
+	constexpr float DIVIDE_MARGIN = CROSS_HALF_WIDTH + TRASH_RADIUS;
 	struct AreaInfo
 	{
 		/** 区画のX座標の最小値*/
@@ -38,13 +43,13 @@ namespace
 	constexpr AreaInfo AREA_RANGES[] =
 	{
 		/** 左上*/
-		{ FLOOR_MIN_X,FLOOR_CENTER_X, FLOOR_CENTER_Z, FLOOR_MAX_Z },
+		{ FLOOR_MIN_X, DIVIDE_X -DIVIDE_MARGIN, DIVIDE_Z + DIVIDE_MARGIN, FLOOR_MAX_Z },
 		/** 右上*/
-		{ FLOOR_CENTER_X,FLOOR_MAX_X, FLOOR_CENTER_Z, FLOOR_MAX_Z },
+		{ DIVIDE_X + DIVIDE_MARGIN, FLOOR_MAX_X, DIVIDE_Z + DIVIDE_MARGIN, FLOOR_MAX_Z },
 		/** 左下*/
-		{ FLOOR_MIN_X,FLOOR_CENTER_X, FLOOR_MIN_Z, FLOOR_CENTER_Z },
+		{ FLOOR_MIN_X,DIVIDE_X - DIVIDE_MARGIN, FLOOR_MIN_Z, DIVIDE_Z - DIVIDE_MARGIN },
 		/** 右下*/
-		{ FLOOR_CENTER_X,FLOOR_MAX_X, FLOOR_MIN_Z, FLOOR_CENTER_Z }
+		{ DIVIDE_X + DIVIDE_MARGIN, FLOOR_MAX_X, FLOOR_MIN_Z, DIVIDE_Z - DIVIDE_MARGIN }
 	};
 
 	/** 区画ごとに出すゴミの種類*/
@@ -66,18 +71,19 @@ namespace
 	/** レイの開始高さ(家具より高く、天井より低くする)*/
 	constexpr float RAY_TOP_Y = 300.0f;
 
-	/** ゴミの半径(周囲チェック用)*/
-	constexpr float TRASH_RADIUS = 20.0f;
+
+	/** ゴミ同士の距離制限*/
+	constexpr float TRASH_MIN_DISTANCE = 50.0f;
 	/** 吸引関連*/
 	/* 吸引が届く距離**/
 	constexpr float SUCTION_RANGE = 100.0f;
 	/** 吸引の扇形の半角(度)*/
-	constexpr float SUCTION_HALF_ANGLE_DEG = 45.0f;
+	constexpr float SUCTION_HALF_ANGLE_DEG = 90.0f;
 	/** この距離まで近づいたら吸い込み完了*/
 	constexpr float ABSORB_DISTANCE = 40.0f;
 	/** 吸い寄せ速度(遠い時と近い時)*/
-	constexpr float SUCTION_SPEED_MIN = 50.0f;
-	constexpr float SUCTION_SPEED_MAX = 300.0f;
+	constexpr float SUCTION_SPEED_MIN = 30.0f;
+	constexpr float SUCTION_SPEED_MAX = 250.0f;
 
 }
 
@@ -145,7 +151,7 @@ bool TrashManager::SpawnTrash(EnArea area)
 	{
 		x = rx(m_random);
 		z = rz(m_random);
-		if (CanPlaceTrash(x, z, y))
+		if (CanPlaceTrash(x, z, y) && IsFarFromOtherTrash(x, z)	)
 		{
 			found = true;
 			break;
@@ -201,6 +207,24 @@ bool TrashManager::CanPlaceTrash(float x, float z,float&outY)const
 		&& IsFloorOnly(x - r, z,dummy)
 		&& IsFloorOnly(x, z + r,dummy)
 		&& IsFloorOnly(x, z - r,dummy);
+}
+
+bool TrashManager::IsFarFromOtherTrash(float x, float z)const
+{
+	/** ゴミ同士の距離制限*/
+	const float minDistance = TRASH_MIN_DISTANCE;
+	for (const TrashEntry& entry : m_trashList)
+	{
+		const Vector3 pos = entry.trash->GetPosition();
+		const float dx = pos.x - x;
+		const float dz = pos.z - z;
+		const float distanceSq = dx * dx + dz * dz;
+		if (distanceSq < minDistance * minDistance)
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 

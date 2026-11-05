@@ -4,7 +4,7 @@ class Stage : public Actor
 {
 public:
 	Stage() {};
-	~Stage() {};
+	~Stage();
 
 public:
 	virtual bool Start()override;
@@ -16,7 +16,8 @@ private:
 	ModelRender m_stageModelRender;
 	/** ステージの物理オブジェクト*/
 	PhysicsStaticObject m_stagePhysicsObject;
-	
+	/** ステージのエフェクト*/
+	EffectEmitter* m_stageEffect = nullptr;
 };
 
 

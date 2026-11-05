@@ -56,6 +56,8 @@ private:
 	/** 指定位置の真上から真下にレイを飛ばして、床だけにレイがあたるか調べる*/
 	bool IsFloorOnly(float x, float z,float&outY)const;
 
+	bool IsFarFromOtherTrash(float x, float z)const;
+
 	/** 指定区画にゴミを一個配置*/
 	bool SpawnTrash(EnArea area);
 	/** 吸引処理全体*/
