@@ -46,6 +46,9 @@
     <Filter Include="Pause">
       <UniqueIdentifier>{39a266e9-6e56-4ddc-ad02-403b72e4cd76}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EffectManager">
+      <UniqueIdentifier>{327a9a3f-2e53-4c3c-8f8c-0fe97d17595c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -110,7 +113,9 @@
     <ClCompile Include="Pause\Pause.cpp">
       <Filter>Pause</Filter>
     </ClCompile>
-    <ClCompile Include="EffectManager.cpp" />
+    <ClCompile Include="EffectManager\EffectManager.cpp">
+      <Filter>EffectManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -174,6 +179,8 @@
     <ClInclude Include="Pause\SoundPause.h">
       <Filter>Pause</Filter>
     </ClInclude>
-    <ClInclude Include="EffectManager.h" />
+    <ClInclude Include="EffectManager\EffectManager.h">
+      <Filter>EffectManager</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

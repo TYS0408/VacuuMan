@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "TrashManager.h"
 #include"Source/Actor/VaccumCleaner/VaccumCleaner.h"
+#include"Stage.h"
 namespace
 {
 	/** ゴミの全体量*/
@@ -23,10 +24,8 @@ namespace
 	constexpr float DIVIDE_X = 0.0f;
 	constexpr float DIVIDE_Z = 400.0f; 
 
-	/** 十字キの半分の大きさ*/
-	constexpr float CROSS_HALF_WIDTH = 30.0f;
 	/** 分割線からゴミを離す距離*/
-	constexpr float DIVIDE_MARGIN = CROSS_HALF_WIDTH + TRASH_RADIUS;
+	constexpr float DIVIDE_MARGIN = 50.0f;
 	struct AreaInfo
 	{
 		/** 区画のX座標の最小値*/
@@ -43,15 +42,44 @@ namespace
 	constexpr AreaInfo AREA_RANGES[] =
 	{
 		/** 左上*/
+		/** X = -500～-50,Z = 450～1000*/
 		{ FLOOR_MIN_X, DIVIDE_X -DIVIDE_MARGIN, DIVIDE_Z + DIVIDE_MARGIN, FLOOR_MAX_Z },
 		/** 右上*/
+		/** X = 50～350,Z = 450～1000*/
 		{ DIVIDE_X + DIVIDE_MARGIN, FLOOR_MAX_X, DIVIDE_Z + DIVIDE_MARGIN, FLOOR_MAX_Z },
 		/** 左下*/
+		/** X = -500～-50,Z = 0～450*/
 		{ FLOOR_MIN_X,DIVIDE_X - DIVIDE_MARGIN, FLOOR_MIN_Z, DIVIDE_Z - DIVIDE_MARGIN },
 		/** 右下*/
+		/** X = 50～350,Z = 0～450*/
 		{ DIVIDE_X + DIVIDE_MARGIN, FLOOR_MAX_X, FLOOR_MIN_Z, DIVIDE_Z - DIVIDE_MARGIN }
 	};
 
+	/** 確保エフェクトの区画ごとの調整*/
+	struct SecureEffectInfo
+	{
+		/** 区画中心からのずらし量*/
+		float offsetX;
+		float offsetZ;
+		/** エフェクトの大きさ*/
+		float scaleX;
+		float scaleZ;
+	};
+	/** エフェクトを出す位置*/
+	constexpr SecureEffectInfo SECURE_EFFECT_INFOS[] =
+	{
+		/** 左上*/
+		{ -30.0f,-20.0f,100.0f,100.0f },
+		/** 右上*/
+		{ 60.0f,-20.0f,100.0f,100.0f },
+		/** 左下*/
+		{ -30.0f,-20.0f,100.0f,100.0f },
+		/** 右下*/
+		{ 60.0f,-20.0f,100.0f,100.0f },
+	};
+
+	/** 確保エフェクトのY方向の大きさ*/
+	constexpr float SECURE_EFFECT_SCALE_Y = 70.0f;
 	/** 区画ごとに出すゴミの種類*/
 	const  std::vector<EnTrashType> AREA_TRASH_TYPES[] =
 	{
@@ -64,6 +92,9 @@ namespace
 		/** 右下*/
 		{ EnTrashType::enBox, EnTrashType::enPizzaBox,}
 	};
+
+
+
 
 	/** 1個のゴミに対する座標の抽選やり直し上限*/
 	constexpr int MAX_RETRY = 100;
@@ -183,6 +214,7 @@ bool TrashManager::Start()
 	m_random.seed(std::random_device{}());
 
 	/** 一区画あたりの配置数*/
+	/** 60÷5=12*/
 	const int trasPerArea = TRASH_COUNT / AREA_NUM;
 	/** ここで各区画にゴミを配置する*/
 	/** ここでゴミの総数(現在は50)だけ繰り返す*/
@@ -240,6 +272,8 @@ void TrashManager::UpdateSuction()
 	{
 		return;
 	}
+
+	
 	/** 掃除機に吸い込み口の位置と向きを教えてもらう*/
 	const Vector3 nozzlePos = vaccum->GetSuctionPosition();
 	const Vector3 suctionDir = vaccum->GetSuctionDirection();
@@ -258,8 +292,18 @@ void TrashManager::UpdateSuction()
 		{
 			/** ポイントを加算*/
 			m_currentCleanPoint += trash->GetCleanPoint(); 
+			/** erase後はitが無効になるため先に区画を取り出す*/
+			const EnArea area = it->area;
+			const int areaIndex = static_cast<int>(area);
 			DeleteGO(trash);
 			it = m_trashList.erase(it);
+
+			/** 区画のゴミ数を減らして、0になったら確保を通知する*/
+			m_areaTrashCount[areaIndex]--;
+			if (m_areaTrashCount[areaIndex] == 0)
+			{
+				NotifyAreaSecured(area);
+			}
 			continue;
 		}
 		/** 範囲内なら引き寄せる*/
@@ -270,6 +314,32 @@ void TrashManager::UpdateSuction()
 		}
 		++it;
 	}
+}
+
+
+void TrashManager::NotifyAreaSecured(EnArea area)
+{
+	Stage* stage = FindGO<Stage>("stage");
+	if (stage == nullptr)
+	{
+		return;
+	}
+	/** 区画の番号を取得*/
+	const int index = static_cast<int>(area);
+	/** 区画の範囲情報の取得*/
+	const AreaInfo& range = AREA_RANGES[index];
+	/** そのエフェクトのそれぞれの位置情報の取得*/
+	const SecureEffectInfo& info = SECURE_EFFECT_INFOS[index];
+
+	/** 区画の中心を計算*/
+	const Vector3 center(
+		(range.minX + range.maxX) * 0.5f + info.offsetX,
+		0.0f,
+		(range.minZ + range.maxZ) * 0.5f+ info.offsetZ
+		);
+	/** エフェクトのスケールを設定*/
+	const Vector3 scale(info.scaleX, SECURE_EFFECT_SCALE_Y, info.scaleZ);
+	stage->PlayStageSecureEffect(center,scale);
 }
 
 

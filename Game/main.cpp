@@ -5,7 +5,7 @@
 #include<dxgidebug.h>
 #include"GameScene/Title.h"
 #include "SoundManager/SoundManager.h"
-#include"EffectManager.h"
+#include"EffectManager/EffectManager.h"
 
 
 

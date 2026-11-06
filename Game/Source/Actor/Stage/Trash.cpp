@@ -21,6 +21,8 @@ namespace
 		{"Assets/modelData/Trash/DrinkCan/SodaCan.tkm", 5},
 		{"Assets/modelData/Trash/FoodCan/Foodcan.tkm", 2},
 	};
+
+	const Vector3 TRASH_SCALE = { 1.3f, 1.3f, 1.3f };
 }
 
 bool Trash::Start()
@@ -28,7 +30,7 @@ bool Trash::Start()
 	/** 初期化処理*/
 	const TrashInfo& info = TRASH_INFO[static_cast<int>(m_type)];
 	m_modelRender.Init(info.filePath);
-	//m_modelRender.SetScale(Vector3(5.0f, 5.0f, 5.0f));
+	m_modelRender.SetScale(TRASH_SCALE);
 	m_modelRender.SetPosition(m_position);
 	m_modelRender.Update();
 	return true;

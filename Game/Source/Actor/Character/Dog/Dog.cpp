@@ -31,7 +31,7 @@ namespace
 	/** 決め直しの最大回数 */
 	constexpr int MAX_RETRY = 10;
 	/** 到着後に立ち止まる秒数*/
-	constexpr float WAIT_TIME = 0.5f;
+	constexpr float WAIT_TIME = 1.0f;
 
 
 
@@ -128,28 +128,23 @@ void Dog::Move()
 	/** 目標までの距離*/
 	Vector3 toTaget = m_tagetPos - m_position;
 	toTaget.y = 0.0f;
+	const float distance = toTaget.Length();
+	const float step = MOVE_SPEED * g_gameTime->GetFrameDeltaTime();
 
 	/** 到着判定*/
 	/**目標までの距離を計算して目標に到着したら*/
-	if (toTaget.Length() < ARRIVE_DIST)
+	if (distance < ARRIVE_DIST)
 	{
-		/** 到着した後は３秒間制止する。*/
-		if (WAIT_TIME > 0.0f)
-		{
-			m_waitTimer = WAIT_TIME;
-		}
-		/** 終わったらまた目標まで歩き出す。*/
-		else
-		{
-			DecideNextTarget();
-		}
+		m_position.x = m_tagetPos.x;
+		m_position.y = m_tagetPos.y;
+		m_waitTimer = WAIT_TIME;
 		return;
 	}
 
 	/** 目標地点まで移動*/
-	m_moveDir = toTaget;
+	m_moveDir = toTaget / distance;
 	m_moveDir.Normalize();
-	m_position += m_moveDir * MOVE_SPEED * g_gameTime->GetFrameDeltaTime();
+	m_position += m_moveDir * step;
 }
 
 
@@ -171,12 +166,12 @@ void Dog::Rotation()
 
 void Dog::ManageState()
 {
-	/** 犬が少しでも移動したら*/
+	/** 犬の待機時間が０になるまで*/
 	if (m_waitTimer > 0.0f)
 	{
 		m_state = 0;
 	}
-	/** 移動していなかったら*/
+	/** 移動してたら*/
 	else
 	{
 		m_state = 1;

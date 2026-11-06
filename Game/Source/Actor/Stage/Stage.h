@@ -11,6 +11,8 @@ public:
 	virtual void Update()override;
 	virtual void Render(RenderContext& rc)override;
 
+	void PlayStageSecureEffect(const Vector3& areaCenter,const Vector3&scale);
+
 private:
 	/** ステージのモデル*/
 	ModelRender m_stageModelRender;

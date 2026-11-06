@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Stage.h"
-#include"EffectManager.h"
+#include"EffectManager/EffectManager.h"
 namespace
 {
 	/** ステージのファイルパス*/
@@ -12,8 +12,11 @@ namespace
 	/** エフェクトの位置(床の中心、少し浮かせる)*/
 	const Vector3 EFFECT_POS = Vector3(0.0f, 20.0f, 400.0f);
 
-	/** エフェクトの大きさ*/
-	const Vector3 EFFECT_SCALE = Vector3(70.0f, 0.0f, 70.0f);
+	/** ステージ分割エフェクトの大きさ*/
+	const Vector3 EFFECT_SCALE = Vector3(70.0f, 70.0f, 70.0f);
+
+	/** 確保エフェクトを床から離す位置*/
+	constexpr float SECURE_EFFECT_HEIGHT = 20.0f;
 }
 
 Stage::~Stage()
@@ -60,6 +63,20 @@ void Stage::Update()
 
 	m_stageModelRender.Update();
 
+}
+
+
+void Stage::PlayStageSecureEffect(const Vector3& areaCenter,const Vector3&scale)
+{
+	EffectEmitter * effect = NewGO<EffectEmitter>(0, "secureeffect");
+	effect->Init(static_cast<int>(EffectID::EffectID_StageSecure));
+	/** 確保した場所にエフェクトを出す*/
+	Vector3 pos = areaCenter;
+	pos.y += SECURE_EFFECT_HEIGHT;
+	effect->SetPosition(pos);
+	effect->SetScale(scale);
+	effect->Play();
+	effect->Update();
 }
 
 void Stage::Render(RenderContext& rc)

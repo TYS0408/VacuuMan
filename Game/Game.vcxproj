@@ -224,7 +224,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CleanRate\CleanRate.cpp" />
-    <ClCompile Include="EffectManager.cpp" />
+    <ClCompile Include="EffectManager\EffectManager.cpp" />
     <ClCompile Include="GameCamera\GameCamera.cpp" />
     <ClCompile Include="GameScene\Game.cpp" />
     <ClCompile Include="GameScene\GameClear.cpp" />
@@ -253,7 +253,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CleanRate\CleanRate.h" />
-    <ClInclude Include="EffectManager.h" />
+    <ClInclude Include="EffectManager\EffectManager.h" />
     <ClInclude Include="GameCamera\GameCamera.h" />
     <ClInclude Include="GameScene\Game.h" />
     <ClInclude Include="GameScene\GameClear.h" />

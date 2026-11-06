@@ -4,6 +4,7 @@ enum class EffectID
 {
 	/** ステージ分割エフェクト*/
 	EffectID_StageDivision,
+	EffectID_StageSecure,
 };
 class EffectManager : public IGameObject
 {
