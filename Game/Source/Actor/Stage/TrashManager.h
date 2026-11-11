@@ -8,9 +8,13 @@ class TrashManager : public Actor
 	/** ステージの区画*/
 	enum class EnArea
 	{
-		enUpperLeft,
-		enUpperRight,
+		/** 左上*/
+		enUpperLeft
+		/** 右上*/,
+		enUpperRight
+		/** 左下*/,
 		enLowerLeft,
+		/** 右下*/
 		enLowerRight,
 		enNum
 	};
@@ -34,13 +38,6 @@ public:
 		return static_cast<float>(m_currentCleanPoint) / m_totalCleanPoint;
 	}
 
-	
-	
-	///** 指定された区画がクリアされているかを判定する */
-	//bool IsAreaCleared(EnArea area) const
-	//{
-	//	return m_areaCleared[static_cast<int>(area)];
-	//}
 
 private:
 	/** ゴミとそのゴミが沸いた区画のペア*/
@@ -57,20 +54,20 @@ private:
 	bool IsFloorOnly(float x, float z,float&outY)const;
 	/** 指定位置が他のゴミから十分離れているか*/
 	bool IsFarFromOtherTrash(float x, float z)const;
-
-	/** エリアが確保されたことをステージに知らせる関数*/
-	void NotifyAreaSecured(EnArea area);
+	/** プレイヤーがいるエリアを返す*/
+	EnArea GetPlayerArea(const Vector3& playerPos)const;
+	/** プレイヤーがエリア内にいるかどうか*/
+	bool IsPlayerInErea(const Vector3& playerpos)const;
 	/** 指定区画にゴミを一個配置*/
 	bool SpawnTrash(EnArea area);
+	/**ゴミが吸引範囲(距離 + 扇形)に入っているか*/
+	bool IsInSuctionRange(const Vector3 & toTrash, float distance, const Vector3 & suctionDir)const;
+	/** エリアが確保されたことをステージに知らせる関数*/
+	void NotifyAreaSecured(EnArea area);
 	/** 吸引処理全体*/
 	void UpdateSuction();
-
-	/** ゴミが吸引範囲(距離+扇形)に入っているか*/
-	bool IsInSuctionRange(const Vector3& toTrash, float distance, const Vector3& suctionDir)const;
-
 	/** 距離に応じた引き寄せ速度を計算*/
 	float CalcSuctionSpeed(float distance)const;
-
 	/** ゴミを吸い込み口に向けて1フレーム動かす*/
 	void PullTrash(Trash* trash, const Vector3& nozzlePos, float speed, float deltaTime)const;
 

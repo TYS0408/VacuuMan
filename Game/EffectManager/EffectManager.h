@@ -3,7 +3,15 @@
 enum class EffectID
 {
 	/** ステージ分割エフェクト*/
-	EffectID_StageDivision,
+	/** 右上*/
+	EffectID_StageDivision_UpperRight,
+	/**左上*/
+	EffectID_StageDivision_UpperLeft,
+	/** 右下*/
+	EffectID_StageDivision_LowerRight,
+	/** 左下*/
+	EffectID_StageDivision_LowerLeft,
+	/** ゴミ確保エフェクト*/
 	EffectID_StageSecure,
 };
 class EffectManager : public IGameObject

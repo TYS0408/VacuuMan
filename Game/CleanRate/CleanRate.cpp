@@ -50,8 +50,6 @@ namespace
 	/** 間隔*/
 	constexpr float DIGIT_SPACING = 25.0f;
 
-	/** 7,８,９,の大きさ(少し小さくする)*/
-	const Vector3 SCALE = Vector3(0.8f, 0.8f, 0.8f);
 	/** 「％」*/
 	const Vector3 PERCENT_POS = { -820.0f,390.0f,0.0f };
 	constexpr float PERCENT_SIZE_W = 50.0f;
@@ -122,11 +120,6 @@ bool CleanRate::Start()
 				/** 左ヘ並べる*/
 				pos.x -= DIGIT_SPACING * place;
 				m_numberSpriteRender[place][n].SetPosition(pos);
-				/** 数字が７以上だったら大きさを少し小さくする*/
-				if (n >=7)
-				{
-					m_numberSpriteRender[place][n].SetScale(SCALE);
-				}
 				m_numberSpriteRender[place][n].Update();
 			}
 		}

@@ -2,6 +2,7 @@
 #include "TrashManager.h"
 #include"Source/Actor/VaccumCleaner/VaccumCleaner.h"
 #include"Stage.h"
+#include"Source/Actor/Character/Player/Player.h"
 namespace
 {
 	/** ゴミの全体量*/
@@ -18,14 +19,16 @@ namespace
 	constexpr float FLOOR_Y_MIN = -15.0f;
 	constexpr float FLOOR_Y_MAX = 5.0f;
 
-	/** ゴミの半径(周囲チェック用)*/
+	/** ゴミの半径(	ゴミの周囲に家具が無いかを調べるときに使う)*/
 	constexpr float TRASH_RADIUS = 20.0f;
-	/** 十字エフェクトの中心*/
-	constexpr float DIVIDE_X = 0.0f;
+	/** エフェクトの中心*/
+	constexpr float DIVIDE_X = -20.0f;
 	constexpr float DIVIDE_Z = 400.0f; 
 
 	/** 分割線からゴミを離す距離*/
 	constexpr float DIVIDE_MARGIN = 50.0f;
+
+	/** XとZの区画を表す入れ物*/
 	struct AreaInfo
 	{
 		/** 区画のX座標の最小値*/
@@ -42,16 +45,16 @@ namespace
 	constexpr AreaInfo AREA_RANGES[] =
 	{
 		/** 左上*/
-		/** X = -500～-50,Z = 450～1000*/
+		/** X = -500～-70,Z = 450～1000*/
 		{ FLOOR_MIN_X, DIVIDE_X -DIVIDE_MARGIN, DIVIDE_Z + DIVIDE_MARGIN, FLOOR_MAX_Z },
 		/** 右上*/
-		/** X = 50～350,Z = 450～1000*/
+		/** X = 30～350,Z = 450～1000*/
 		{ DIVIDE_X + DIVIDE_MARGIN, FLOOR_MAX_X, DIVIDE_Z + DIVIDE_MARGIN, FLOOR_MAX_Z },
 		/** 左下*/
-		/** X = -500～-50,Z = 0～450*/
+		/** X = -480～-30,Z = 0～450*/
 		{ FLOOR_MIN_X,DIVIDE_X - DIVIDE_MARGIN, FLOOR_MIN_Z, DIVIDE_Z - DIVIDE_MARGIN },
 		/** 右下*/
-		/** X = 50～350,Z = 0～450*/
+		/** X = 30～350,Z = 0～450*/
 		{ DIVIDE_X + DIVIDE_MARGIN, FLOOR_MAX_X, FLOOR_MIN_Z, DIVIDE_Z - DIVIDE_MARGIN }
 	};
 
@@ -65,7 +68,7 @@ namespace
 		float scaleX;
 		float scaleZ;
 	};
-	/** エフェクトを出す位置*/
+	/** 確保エフェクトを出す位置*/
 	constexpr SecureEffectInfo SECURE_EFFECT_INFOS[] =
 	{
 		/** 左上*/
@@ -78,23 +81,42 @@ namespace
 		{ 60.0f,-20.0f,100.0f,100.0f },
 	};
 
+	/** 分割エフェクトの区画ごとの調整*/
+	struct DivisionEffectInfo
+	{
+		/** 区画中心からのずらし量*/
+		float offsetX;
+		float offsetZ;
+		/** エフェクトの大きさ*/
+		float scaleX;
+		float scaleZ;
+	};
+	constexpr DivisionEffectInfo DIVISION_EFFECT_INFOS[] =
+	{
+		/** 左上*/
+		{ -40.0f,-20.0f,53.0f,60.0f },
+		/** 右上*/
+		{ -30.0f,-20.0f,53.0f,60.0f },
+		/** 左下*/
+		{ -40.0f,-20.0f,53.0f,60.0f },
+		/** 右下*/
+		{ -20.0f,-20.0f,53.0f,60.0f }
+	};
+
 	/** 確保エフェクトのY方向の大きさ*/
 	constexpr float SECURE_EFFECT_SCALE_Y = 70.0f;
 	/** 区画ごとに出すゴミの種類*/
 	const  std::vector<EnTrashType> AREA_TRASH_TYPES[] =
 	{
-		/** 左上*/
+		/** 左上(ペットボトル、飲料缶、食品缶)*/
 		{ EnTrashType::enBottle, EnTrashType::enDrinkCan, EnTrashType::enFoodCan },
-		/** 右上*/
+		/** 右上(箱、ピザ箱)*/
 		{ EnTrashType::enBox,EnTrashType::enPizzaBox },
-		/** 左下*/
+		/** 左下(ペットボトル、飲料缶、食品缶)*/
 		{ EnTrashType::enBottle, EnTrashType::enDrinkCan,EnTrashType::enFoodCan },
-		/** 右下*/
+		/** 右下(箱、ピザ箱)*/
 		{ EnTrashType::enBox, EnTrashType::enPizzaBox,}
 	};
-
-
-
 
 	/** 1個のゴミに対する座標の抽選やり直し上限*/
 	constexpr int MAX_RETRY = 100;
@@ -109,13 +131,12 @@ namespace
 	/* 吸引が届く距離**/
 	constexpr float SUCTION_RANGE = 100.0f;
 	/** 吸引の扇形の半角(度)*/
-	constexpr float SUCTION_HALF_ANGLE_DEG = 90.0f;
+	constexpr float SUCTION_HALF_ANGLE_DEG = 50.0f;
 	/** この距離まで近づいたら吸い込み完了*/
 	constexpr float ABSORB_DISTANCE = 40.0f;
 	/** 吸い寄せ速度(遠い時と近い時)*/
-	constexpr float SUCTION_SPEED_MIN = 30.0f;
+	constexpr float SUCTION_SPEED_MIN = 100.0f;
 	constexpr float SUCTION_SPEED_MAX = 250.0f;
-
 }
 
 TrashManager::TrashManager()
@@ -248,9 +269,11 @@ bool TrashManager::IsFarFromOtherTrash(float x, float z)const
 	for (const TrashEntry& entry : m_trashList)
 	{
 		const Vector3 pos = entry.trash->GetPosition();
+		/**既存のゴミの位置と、新しい候補位置との X方向の差 と Z方向の差 を求める*/
 		const float dx = pos.x - x;
 		const float dz = pos.z - z;
 		const float distanceSq = dx * dx + dz * dz;
+		/**distanceSq(距離の2乗)が小さければfalseを返す */
 		if (distanceSq < minDistance * minDistance)
 		{
 			return false;
@@ -273,7 +296,22 @@ void TrashManager::UpdateSuction()
 		return;
 	}
 
-	
+
+	/** プレイヤーがいる場所に分割エフェクトを表示するために情報を取得する*/
+	Stage* stage = FindGO<Stage>("stage");
+	Player* player = FindGO<Player>("player");
+	if (stage != nullptr||player!=nullptr)
+	{
+		const Vector3 PlayerPos = player->GetPosition();
+		const int areaindex = static_cast<int>(GetPlayerArea(PlayerPos));
+		const DivisionEffectInfo& info = DIVISION_EFFECT_INFOS[areaindex];
+		stage->ShowStageDivisionEffect(
+			areaindex,
+			Vector3(info.offsetX, 0.0f, info.offsetZ),
+			Vector3(info.scaleX, SECURE_EFFECT_SCALE_Y, info.scaleZ));
+	}
+
+
 	/** 掃除機に吸い込み口の位置と向きを教えてもらう*/
 	const Vector3 nozzlePos = vaccum->GetSuctionPosition();
 	const Vector3 suctionDir = vaccum->GetSuctionDirection();
@@ -317,6 +355,24 @@ void TrashManager::UpdateSuction()
 }
 
 
+TrashManager::EnArea TrashManager::GetPlayerArea(const Vector3& playerPos)const
+{
+	/** Xが0以上だったら右側にエフェクトを切り替える*/
+	const bool isRight = playerPos.x >= DIVIDE_X;
+	/** Zが400以上だったら右側にエフェクトを切り替える*/
+	const bool isUpper = playerPos.z >= DIVIDE_Z;
+	/** プレイヤーが右側にいたら上か下かを判定する*/
+	if (isUpper)
+	{
+		return isRight ? EnArea::enUpperRight : EnArea::enUpperLeft;
+	}
+	return isRight ? EnArea::enLowerRight : EnArea::enLowerLeft;
+	
+	
+}
+
+
+
 void TrashManager::NotifyAreaSecured(EnArea area)
 {
 	Stage* stage = FindGO<Stage>("stage");
@@ -342,6 +398,11 @@ void TrashManager::NotifyAreaSecured(EnArea area)
 	stage->PlayStageSecureEffect(center,scale);
 }
 
+bool TrashManager::IsPlayerInErea(const Vector3& playerPos)const
+{
+	/** 分割エフェクトはプレイヤーがいる場所に表示*/
+	return playerPos.x >= DIVIDE_X && playerPos.z >= DIVIDE_Z;
+}
 
 bool TrashManager::IsInSuctionRange(const Vector3& toTrash, float distance, const Vector3& suctionDir)const
 {
