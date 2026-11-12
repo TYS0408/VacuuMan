@@ -2,6 +2,7 @@
 #include "CleanRate.h"
 #include"Source/Actor/Stage/TrashManager.h"
 #include"Pause/Pause.h"
+#include"GameScene/GameClear.h"
 namespace
 {
 	
@@ -140,6 +141,12 @@ void CleanRate::Update()
 	{
 		return;
 	}
+
+	/** すでにクリア済みなら何もしない*/
+	if (m_isGameClear)
+	{
+		return;
+	}
 	
 	/** 目標に向かって滑らかに近づける*/
 	const float target = m_trashManager->GetCleanRate();
@@ -153,7 +160,13 @@ void CleanRate::Update()
 	m_gaugeRate = rate;
 
 	/** 数字は実際の値(整数%)*/
-	m_displayPercent = static_cast<int>(m_displayRate * 100.0f + 0.5f);
+	m_displayPercent = static_cast<int>(m_displayRate * 100.0f + 0.5f); 
+	/** 達成率が100になったらゲームクリア*/
+	if (m_trashManager->GetCleanRate() >= 1.0)
+	{
+		m_isGameClear = true;
+		NewGO<GameClear>(0, "gameclear");
+	}
 }
 
 

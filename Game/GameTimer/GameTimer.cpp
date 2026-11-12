@@ -77,6 +77,12 @@ void GameTimer::Update()
 		return;
 	}
 
+	/** すでにクリア画面が出ていたらタイマーを止める*/
+	if (FindGO<GameClear>("gameclear") != nullptr)
+	{
+		return;
+	}
+
 	TextTimer();
 
 	/** 全ての画像スプライト(30個)を更新 */

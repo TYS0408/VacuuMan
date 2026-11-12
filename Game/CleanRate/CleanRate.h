@@ -46,5 +46,7 @@ private:
 	 float m_displayRate = 0.0f;
 
 	 float m_gaugeRate = 0.0f;
+	 /** 達成率が100%いったらゲームをクリアにするフラグ*/
+	 bool m_isGameClear = false;
 };
 
