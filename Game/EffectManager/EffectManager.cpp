@@ -38,4 +38,10 @@ void EffectManager::LoadEffects()
 		(int)EffectID::EffectID_StageSecure,
 		u"Assets/Effect/Stage_Secure.efk"
 	);
+
+	/** 掃除機吸い込みエフェクトを読み込む*/
+	nsK2EngineLow::EffectEngine::GetInstance()->ResistEffect(
+		(int)EffectID::EffectID_VaccumSuction,
+		u"Assets/Effect/Vaccum_Suction.efk"
+	);
 }

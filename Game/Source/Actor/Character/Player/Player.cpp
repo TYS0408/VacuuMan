@@ -59,8 +59,7 @@ bool Player::Start()
 	m_playerModelRender.SetPosition(m_transform.GetPosition());
 
 	m_playerModelRender.SetScale(PLAYER_SCALE);
-	m_rotation.SetRotationDegY(180.0f);
-	m_playerModelRender.SetRotation(m_rotation);
+
 	m_playerModelRender.Update();
 
 	/** 掃除機を生成*/
@@ -92,6 +91,8 @@ void Player::Update()
 
 	/** 移動後の座標・回転に掃除機を合わせる*/
 	UpdateVaccumCleaner();
+
+
 }
 
 
@@ -129,10 +130,11 @@ void Player::Move()
 
 	Vector3 position = m_transform.GetPosition();
 
+
 	
 	/** モデルの座標をキャラクターコントローラーの座標に合わせる*/
 	m_playerModelRender.SetPosition(m_transform.GetPosition());
-
+	
 }
 
 
@@ -169,12 +171,16 @@ void Player::UpdateVaccumCleaner()
 
 void Player::ManageState()
 {
-	if (fabsf(m_moveSpeed.x) >= 0.000001 || fabsf(m_moveSpeed.z )>= 0.000001)
+	if (fabsf(m_moveSpeed.x) >= 0.000001f || fabsf(m_moveSpeed.z )>= 0.000001f)
 	{
+		/** 動いている時だけエフェクトを再生*/
+		m_vaccumCleaner->StartSuction();
 		m_state = 1;
 	}
 	else
 	{
+		/** 動いていなかったら掃除機吸い込みエフェクトを止める*/
+		m_vaccumCleaner->StopSuction();
 		m_state = 0;
 	}
 }

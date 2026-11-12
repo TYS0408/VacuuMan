@@ -13,6 +13,8 @@ enum class EffectID
 	EffectID_StageDivision_LowerLeft,
 	/** ゴミ確保エフェクト*/
 	EffectID_StageSecure,
+	/** 掃除機吸い込みエフェクト*/
+	EffectID_VaccumSuction,
 };
 class EffectManager : public IGameObject
 {
