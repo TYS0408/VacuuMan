@@ -3,6 +3,7 @@
 #include"Source/Actor/VaccumCleaner/VaccumCleaner.h"
 #include"Stage.h"
 #include"Source/Actor/Character/Player/Player.h"
+#include"Score/Score.h"
 namespace
 {
 	/** ゴミの全体量*/
@@ -118,6 +119,18 @@ namespace
 		{ EnTrashType::enBox, EnTrashType::enPizzaBox,}
 	};
 
+	/** ゴミの種類ごとのスコア*/
+	/** ペットボトル*/
+	constexpr int SCORE_BOTTLE = 100;
+	/** 飲料缶*/
+	constexpr int  SCORE_DRINK_CAN = 100;
+	/** 食品缶*/
+	constexpr int SCORE_FOOD_CAN = 100;
+	/** ピザ箱*/
+	constexpr int SCORE_PIZZA_BOX= 400;
+	/***/
+	constexpr int SCORE_BOX = 500;
+
 	/** 1個のゴミに対する座標の抽選やり直し上限*/
 	constexpr int MAX_RETRY = 100;
 
@@ -230,7 +243,7 @@ bool TrashManager::SpawnTrash(EnArea area)
 
 bool TrashManager::Start()
 {
-
+	m_score = FindGO<Score>("score");
 	/** 乱数のもとになるシード値を設定する*/
 	m_random.seed(std::random_device{}());
 
@@ -300,7 +313,7 @@ void TrashManager::UpdateSuction()
 	/** プレイヤーがいる場所に分割エフェクトを表示するために情報を取得する*/
 	Stage* stage = FindGO<Stage>("stage");
 	Player* player = FindGO<Player>("player");
-	if (stage != nullptr||player!=nullptr)
+	if (stage != nullptr&&player!=nullptr)
 	{
 		const Vector3 PlayerPos = player->GetPosition();
 		const int areaindex = static_cast<int>(GetPlayerArea(PlayerPos));
@@ -330,7 +343,14 @@ void TrashManager::UpdateSuction()
 		{
 			/** ポイントを加算*/
 			m_currentCleanPoint += trash->GetCleanPoint(); 
-			/** erase後はitが無効になるため先に区画を取り出す*/
+
+			/** ゴミの種類によってスコアを加算*/
+			if (m_score != nullptr)
+			{
+				m_score->AddScore(GetTrashScore(trash->GetTrashType()));
+			}
+
+				/** erase後はitが無効になるため先に区画を取り出す*/
 			const EnArea area = it->area;
 			const int areaIndex = static_cast<int>(area);
 			DeleteGO(trash);
@@ -354,6 +374,33 @@ void TrashManager::UpdateSuction()
 	}
 }
 
+
+int TrashManager::GetTrashScore(EnTrashType type)const
+{
+	switch (type)
+	{
+	case EnTrashType::enBottle:
+		return SCORE_BOTTLE;
+		break;
+	case EnTrashType::enDrinkCan:
+		return SCORE_DRINK_CAN;
+		break;
+	case EnTrashType::enFoodCan:
+		return SCORE_FOOD_CAN;
+		break;
+	case EnTrashType::enPizzaBox:
+		return SCORE_PIZZA_BOX;
+		break;
+	case EnTrashType::enBox:
+		return SCORE_BOX;
+		break;
+	case EnTrashType::enNum:
+		break;
+	default:
+		return 0;
+		break;
+	}
+}
 
 TrashManager::EnArea TrashManager::GetPlayerArea(const Vector3& playerPos)const
 {

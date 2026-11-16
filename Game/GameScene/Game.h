@@ -10,6 +10,7 @@ class Dog;
 class GameTimer;
 class CleanRate;
 class Pause;
+class Score;
 class Game : public IGameObject
 {
 public:
@@ -44,6 +45,8 @@ private:
 	Pause* m_pause = nullptr;
 	/* インゲームBGM*/
 	SoundSource* m_gameBGM = nullptr;
+	/** スコア*/
+	Score* m_score = nullptr;
 
 };
 

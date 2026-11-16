@@ -47,6 +47,11 @@ public:
 	/** 拾われた時の綺麗さ*/
 	int GetCleanPoint()const;
 
+	/** ゴミの種類を取得*/
+	EnTrashType GetTrashType()const
+	{
+		return m_type;
+	}
 private:
 	ModelRender m_modelRender;
 	EnTrashType m_type = EnTrashType::enBottle;

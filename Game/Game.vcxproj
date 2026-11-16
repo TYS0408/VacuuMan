@@ -234,6 +234,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pause\Pause.cpp" />
     <ClCompile Include="Pause\SoundPause.cpp" />
+    <ClCompile Include="Score\Score.cpp" />
     <ClCompile Include="SoundManager\SoundManager.cpp" />
     <ClCompile Include="Source\Actor\Actor.cpp" />
     <ClCompile Include="Source\Actor\Character\Character.cpp" />
@@ -262,6 +263,7 @@
     <ClInclude Include="GameTimer\GameTimer.h" />
     <ClInclude Include="Pause\Pause.h" />
     <ClInclude Include="Pause\SoundPause.h" />
+    <ClInclude Include="Score\Score.h" />
     <ClInclude Include="SoundManager\SoundManager.h" />
     <ClInclude Include="Source\Actor\Actor.h" />
     <ClInclude Include="Source\Actor\Character\Character.h" />

@@ -3,6 +3,7 @@
 #include"Trash.h"
 #include<array>
 #include<random>
+class Score;
 class TrashManager : public Actor
 {
 	/** ステージの区画*/
@@ -71,6 +72,9 @@ private:
 	/** ゴミを吸い込み口に向けて1フレーム動かす*/
 	void PullTrash(Trash* trash, const Vector3& nozzlePos, float speed, float deltaTime)const;
 
+	/** ゴミの種類に応じたスコアを返す*/
+	int GetTrashScore(EnTrashType type) const;
+
 private:
 
 	static constexpr int  AREA_NUM = static_cast<int>(EnArea::enNum);
@@ -83,5 +87,7 @@ private:
 	int m_totalCleanPoint = 0;
 	/** 吸い込んだ分のポイント*/
 	int m_currentCleanPoint = 0; 
+	/** スコア*/
+	Score* m_score = nullptr;
 };
 

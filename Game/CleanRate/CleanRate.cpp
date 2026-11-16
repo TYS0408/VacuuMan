@@ -154,13 +154,17 @@ void CleanRate::Update()
 	const float dt = g_gameTime->GetFrameDeltaTime();
 	/** ここで残りが大きい時は早く、近づくほどゆっくりになるようにする*/
 	m_displayRate += (target - m_displayRate) * min(1.0f, FOLLOW_SPEED * dt);
-
+	/** 目標に十分近づいたら一致させる(1.0に届かないのを防ぐ)*/
+	if (fabsf(target - m_displayRate) < 0.001f)
+	{
+		m_displayRate = target;
+	}
 	/** 0～1に収める*/
 	const float rate = max(0.0f, min(1.0f, m_displayRate));
 	m_gaugeRate = rate;
 
 	/** 数字は実際の値(整数%)*/
-	m_displayPercent = static_cast<int>(m_displayRate * 100.0f + 0.5f); 
+	m_displayPercent = static_cast<int>(m_displayRate * 100.0f); 
 	/** 達成率が100になったらゲームクリア*/
 	if (m_trashManager->GetCleanRate() >= 1.0)
 	{
@@ -183,7 +187,7 @@ void CleanRate::Render(RenderContext& rc)
 	/** 塗りの部分*/
 	/** m_gaugeRateに応じた分だけ描画させる*/
 	/**m_gaugeRateが0ならdrawCountも0にする */
-	const int drawCount = static_cast<int>(m_gaugeRate * GAUGE_SEGMENT + 0.5f);
+	const int drawCount = static_cast<int>(m_gaugeRate * GAUGE_SEGMENT);
 	for (int i = 0; i < drawCount; i++)
 	{
 		m_gaugeSegmentSpriteRender[i].Draw(rc);

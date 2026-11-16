@@ -49,6 +49,9 @@
     <Filter Include="EffectManager">
       <UniqueIdentifier>{327a9a3f-2e53-4c3c-8f8c-0fe97d17595c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Score">
+      <UniqueIdentifier>{3a521c53-8c34-4de9-a9f9-234f0b722547}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -116,6 +119,9 @@
     <ClCompile Include="EffectManager\EffectManager.cpp">
       <Filter>EffectManager</Filter>
     </ClCompile>
+    <ClCompile Include="Score\Score.cpp">
+      <Filter>Score</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -181,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="EffectManager\EffectManager.h">
       <Filter>EffectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Score\Score.h">
+      <Filter>Score</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
