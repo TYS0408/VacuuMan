@@ -77,6 +77,12 @@ void Player::Update()
 	/** ポーズ中は処理を止める*/
 	if(m_pause->GetIsPause())
 	{
+		/** ポーズ中に吸い込みの処理が残らないようにする*/
+		m_isSuctioning = false;
+		if (m_vaccumCleaner != nullptr)
+		{
+			m_vaccumCleaner->StopSuction();
+		}
 		return;
 	}
 	/** 回転*/
@@ -92,9 +98,34 @@ void Player::Update()
 	/** 移動後の座標・回転に掃除機を合わせる*/
 	UpdateVaccumCleaner();
 
+	UpdateSuctionState();
+
 
 }
 
+
+void Player::UpdateSuctionState()
+{
+	/** ステートが1かつRTボタンが押されている間*/
+	const bool isPressRT = g_pad[0]->IsPress(enButtonRB2);
+	m_isSuctioning =isPressRT;
+
+	if (m_vaccumCleaner == nullptr)
+	{
+		return;
+	}
+
+	/** 吸引状態によってエフェクトを開始・停止する*/
+	if (m_isSuctioning)
+	{
+		m_vaccumCleaner->StartSuction();
+	}
+
+	else
+	{
+		m_vaccumCleaner->StopSuction();
+	}
+}
 
 void Player::Move()
 {
@@ -130,8 +161,6 @@ void Player::Move()
 
 	Vector3 position = m_transform.GetPosition();
 
-
-	
 	/** モデルの座標をキャラクターコントローラーの座標に合わせる*/
 	m_playerModelRender.SetPosition(m_transform.GetPosition());
 	
@@ -173,14 +202,12 @@ void Player::ManageState()
 {
 	if (fabsf(m_moveSpeed.x) >= 0.000001f || fabsf(m_moveSpeed.z )>= 0.000001f)
 	{
-		/** 動いている時だけエフェクトを再生*/
-		m_vaccumCleaner->StartSuction();
+		
 		m_state = 1;
 	}
 	else
 	{
-		/** 動いていなかったら掃除機吸い込みエフェクトを止める*/
-		m_vaccumCleaner->StopSuction();
+		
 		m_state = 0;
 	}
 }

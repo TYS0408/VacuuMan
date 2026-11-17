@@ -16,6 +16,8 @@ private:
 private:
 	/** ゲームクリアのスプライトレンダー*/
 	SpriteRender m_gameClearSpriteRender;
+	/** ゲームクリアからすぐにタイトルに戻るのを防ぐために待ち時間を入れる*/
+	float m_inputTimer = 1.0f;
 
 };
 

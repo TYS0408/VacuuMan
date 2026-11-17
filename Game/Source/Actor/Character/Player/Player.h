@@ -26,8 +26,11 @@ public:
 	{
 		return m_transform.GetPosition();
 	};
-
-
+	/** 吸引中かどうかを調べる関数*/
+	bool IsSuctioning()const
+	{
+		return m_isSuctioning;
+	}
 
 private:
 	/** 持っている掃除機*/
@@ -39,7 +42,8 @@ private:
 	void ManageState();
 	/** アニメーション更新*/
 	void PlayAnimation();
-
+	/** 吸引状態の更新*/
+	void UpdateSuctionState();
 	private:
 	/** プレイヤーのモデル*/
 	ModelRender m_playerModelRender;
@@ -61,4 +65,7 @@ private:
 		enAnimationClip_Num,
 	};
 	AnimationClip m_animationClips[enAnimationClip_Num];
+
+	/** 吸引中かどうか*/
+	bool m_isSuctioning = false;
 };

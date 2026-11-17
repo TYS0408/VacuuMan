@@ -50,9 +50,9 @@ void VaccumCleaner::StopSuction()
 		if (!m_vaccumEffect->IsDead())
 		{
 			m_vaccumEffect->Stop();
-			m_vaccumEffect = nullptr;
+			
 		}
-		
+		m_vaccumEffect = nullptr;
 	}
 	m_isSucking = false;
 }

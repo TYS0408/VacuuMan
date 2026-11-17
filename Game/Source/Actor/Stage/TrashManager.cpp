@@ -73,13 +73,13 @@ namespace
 	constexpr SecureEffectInfo SECURE_EFFECT_INFOS[] =
 	{
 		/** 左上*/
-		{ -30.0f,-20.0f,100.0f,100.0f },
+		{ -30.0f,-40.0f,100.0f,100.0f },
 		/** 右上*/
-		{ 60.0f,-20.0f,100.0f,100.0f },
+		{ 60.0f,-40.0f,100.0f,100.0f },
 		/** 左下*/
-		{ -30.0f,-20.0f,100.0f,100.0f },
+		{ -30.0f,-40.0f,100.0f,100.0f },
 		/** 右下*/
-		{ 60.0f,-20.0f,100.0f,100.0f },
+		{ 60.0f,-40.0f,100.0f,100.0f },
 	};
 
 	/** 分割エフェクトの区画ごとの調整*/
@@ -142,14 +142,14 @@ namespace
 	constexpr float TRASH_MIN_DISTANCE = 50.0f;
 	/** 吸引関連*/
 	/* 吸引が届く距離**/
-	constexpr float SUCTION_RANGE = 100.0f;
+	constexpr float SUCTION_RANGE = 150.0f;
 	/** 吸引の扇形の半角(度)*/
-	constexpr float SUCTION_HALF_ANGLE_DEG = 50.0f;
+	constexpr float SUCTION_HALF_ANGLE_DEG = 45.0f;
 	/** この距離まで近づいたら吸い込み完了*/
 	constexpr float ABSORB_DISTANCE = 40.0f;
 	/** 吸い寄せ速度(遠い時と近い時)*/
 	constexpr float SUCTION_SPEED_MIN = 100.0f;
-	constexpr float SUCTION_SPEED_MAX = 250.0f;
+	constexpr float SUCTION_SPEED_MAX = 200.0f;
 }
 
 TrashManager::TrashManager()
@@ -308,8 +308,6 @@ void TrashManager::UpdateSuction()
 	{
 		return;
 	}
-
-
 	/** プレイヤーがいる場所に分割エフェクトを表示するために情報を取得する*/
 	Stage* stage = FindGO<Stage>("stage");
 	Player* player = FindGO<Player>("player");
@@ -323,7 +321,11 @@ void TrashManager::UpdateSuction()
 			Vector3(info.offsetX, 0.0f, info.offsetZ),
 			Vector3(info.scaleX, SECURE_EFFECT_SCALE_Y, info.scaleZ));
 	}
-
+	/** 吸引状態(エフェクトが出ていない状態)じゃなければゴミを吸えないようにする*/
+	if (player==nullptr||!player->IsSuctioning())
+	{
+		return;
+	}
 
 	/** 掃除機に吸い込み口の位置と向きを教えてもらう*/
 	const Vector3 nozzlePos = vaccum->GetSuctionPosition();

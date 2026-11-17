@@ -33,6 +33,13 @@ bool GameClear::Start()
 
 void GameClear::Update()
 {
+	/** ゲームクリアからすぐにタイトルに戻るのを防ぐために待ち時間を入れる*/
+	if (m_inputTimer > 0.0f)
+	{
+		m_inputTimer -= g_gameTime->GetFrameDeltaTime();
+		return;
+	}
+
 	InGameClear();
 }
 
