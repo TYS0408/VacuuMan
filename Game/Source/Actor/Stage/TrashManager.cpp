@@ -397,6 +397,7 @@ int TrashManager::GetTrashScore(EnTrashType type)const
 		return SCORE_BOX;
 		break;
 	case EnTrashType::enNum:
+		return 0;
 		break;
 	default:
 		return 0;

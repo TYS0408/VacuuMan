@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 class FakeTrash : public IGameObject
 {
 public:
@@ -8,6 +8,11 @@ public:
 	bool Start();
 	void Update();
 	void Render(RenderContext& rc);
+
+	void SetPosition(const Vector3& pos)
+	{
+		m_position = pos;
+	}
 	
 private:
 	ModelRender m_modelRender;
