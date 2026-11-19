@@ -8,9 +8,9 @@ class Title : public IGameObject
 public:
 	Title();
 	~Title();
-	bool Start();
-	void Update();
-	void Render(RenderContext& rc);
+	bool Start()override;
+	void Update()override;
+	void Render(RenderContext& rc)override;
 
 public:
 	/** タイトルで行う処理*/

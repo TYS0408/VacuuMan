@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Dog.h"
-#include"FakeTrash.h"
+#include"FakeTrash/FakeTrash.h"
 
 namespace
 {

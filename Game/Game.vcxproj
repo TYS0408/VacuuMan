@@ -225,7 +225,7 @@
   <ItemGroup>
     <ClCompile Include="CleanRate\CleanRate.cpp" />
     <ClCompile Include="EffectManager\EffectManager.cpp" />
-    <ClCompile Include="FakeTrash.cpp" />
+    <ClCompile Include="FakeTrash\FakeTrash.cpp" />
     <ClCompile Include="GameCamera\GameCamera.cpp" />
     <ClCompile Include="GameScene\Game.cpp" />
     <ClCompile Include="GameScene\GameClear.cpp" />
@@ -252,11 +252,12 @@
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="Transform\Transform.cpp" />
+    <ClCompile Include="TrashBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CleanRate\CleanRate.h" />
     <ClInclude Include="EffectManager\EffectManager.h" />
-    <ClInclude Include="FakeTrash.h" />
+    <ClInclude Include="FakeTrash\FakeTrash.h" />
     <ClInclude Include="GameCamera\GameCamera.h" />
     <ClInclude Include="GameScene\Game.h" />
     <ClInclude Include="GameScene\GameClear.h" />
@@ -278,6 +279,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="Transform\Transform.h" />
+    <ClInclude Include="TrashBox.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

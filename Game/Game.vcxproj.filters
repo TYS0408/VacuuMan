@@ -52,6 +52,9 @@
     <Filter Include="Score">
       <UniqueIdentifier>{3a521c53-8c34-4de9-a9f9-234f0b722547}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FakeTrash">
+      <UniqueIdentifier>{d5f9aec8-6558-41fe-a752-724d037ad6d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -122,7 +125,10 @@
     <ClCompile Include="Score\Score.cpp">
       <Filter>Score</Filter>
     </ClCompile>
-    <ClCompile Include="FakeTrash.cpp" />
+    <ClCompile Include="FakeTrash\FakeTrash.cpp">
+      <Filter>FakeTrash</Filter>
+    </ClCompile>
+    <ClCompile Include="TrashBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -192,6 +198,9 @@
     <ClInclude Include="Score\Score.h">
       <Filter>Score</Filter>
     </ClInclude>
-    <ClInclude Include="FakeTrash.h" />
+    <ClInclude Include="FakeTrash\FakeTrash.h">
+      <Filter>FakeTrash</Filter>
+    </ClInclude>
+    <ClInclude Include="TrashBox.h" />
   </ItemGroup>
 </Project>

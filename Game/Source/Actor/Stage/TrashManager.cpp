@@ -343,16 +343,10 @@ void TrashManager::UpdateSuction()
 		/** ゴミとの距離が40以下になったら*/
 		if (distance <= ABSORB_DISTANCE)
 		{
-			/** ポイントを加算*/
-			m_currentCleanPoint += trash->GetCleanPoint(); 
+			/** 達成率・スコアは捨てた時に反映するので、所持リストに入れる*/
+			m_heldTrashList.push_back({ trash->GetTrashType(),trash->GetCleanPoint()});
 
-			/** ゴミの種類によってスコアを加算*/
-			if (m_score != nullptr)
-			{
-				m_score->AddScore(GetTrashScore(trash->GetTrashType()));
-			}
-
-				/** erase後はitが無効になるため先に区画を取り出す*/
+			/** erase後はitが無効になるので先に区画を取り出す*/
 			const EnArea area = it->area;
 			const int areaIndex = static_cast<int>(area);
 			DeleteGO(trash);
@@ -375,6 +369,7 @@ void TrashManager::UpdateSuction()
 		++it;
 	}
 }
+
 
 
 int TrashManager::GetTrashScore(EnTrashType type)const
@@ -420,8 +415,6 @@ TrashManager::EnArea TrashManager::GetPlayerArea(const Vector3& playerPos)const
 	
 	
 }
-
-
 
 void TrashManager::NotifyAreaSecured(EnArea area)
 {
@@ -487,4 +480,24 @@ void TrashManager::PullTrash(Trash* trash, const Vector3& nozzlePos, float speed
 	Vector3 moveDir = nozzlePos - pos;
 	moveDir.Normalize();
 	trash->SetPosition(pos + moveDir * speed * deltaTime);
+}
+
+int TrashManager::DiscardHeldTrash()
+{
+	/** 所持しているごみの個数を記録する*/
+	const int count = static_cast<int>(m_heldTrashList.size());
+	/** 所持リストの中身を一個ずつ取り出し、heldとして扱う*/
+	for (const HeldTrashInfo& held : m_heldTrashList)
+	{
+		/** 達成率に反映*/
+		m_currentCleanPoint += held.cleanPoint;
+		/** スコアに反映*/
+		if (m_score != nullptr)
+		{
+			m_score->AddScore(GetTrashScore(held.type));
+		}
+	}
+	/** ここで精算が終わるのでリストを空にする*/
+	m_heldTrashList.clear();
+	return count;
 }

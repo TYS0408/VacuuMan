@@ -4,7 +4,7 @@
 namespace
 {
 	/** ステージのファイルパス*/
-	const char* STAGE_FILE_PATH = "Assets/modelData/Stage/Stage_β.tkm";
+	const char* STAGE_FILE_PATH = "Assets/modelData/Stage/Stage.tkm";
 
 	/** ステージの座標*/
 	Vector3 STAGE_POS = Vector3(0.0f, 0.0f, 0.0f);

@@ -10,12 +10,12 @@
 #include"SoundManager/SoundManager.h"
 #include"Pause/Pause.h"
 #include"Score/Score.h"
+#include"TrashBox.h"
 
 Game::Game()
 {
 
 }
-
 
 Game::~Game()
 {
@@ -27,6 +27,7 @@ Game::~Game()
 	DeleteGO(m_timer);
 	DeleteGO(m_cleanRate);
 	DeleteGO(m_score);
+	DeleteGO(m_trashBox);
 
 	DeleteGO(m_gameBGM);
 	if (m_pause != nullptr)
@@ -46,7 +47,6 @@ bool Game::Start()
 
 	m_dog = NewGO<Dog>(0, "dog");
 
-
 	m_pause = NewGO<Pause>(0, "pause");
 
 	m_timer = NewGO<GameTimer>(0, "timer");
@@ -54,6 +54,7 @@ bool Game::Start()
 	m_cleanRate = NewGO<CleanRate>(0, "cleanrate");
 
 	m_score = NewGO<Score>(0, "score");
+	m_trashBox = NewGO<TrashBox>(0, "trashbox");
 	/** BGMを流す*/
 	SoundManager* soundManager = FindGO<SoundManager>("soundmanager");
 	m_gameBGM = soundManager->PlayingBGM(SoundBGM::enInGameBGM, true);

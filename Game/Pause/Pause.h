@@ -7,9 +7,9 @@ class Pause : public IGameObject
 public:
 	Pause() {};
 	~Pause() {};
-	bool Start();
-	void Update();
-	void Render(RenderContext& rc);
+	bool Start()override;
+	void Update()override;
+	void Render(RenderContext& rc)override;
 
 public:
 	/** ポーズ中に選んでいる場所の番号を設定する関数*/

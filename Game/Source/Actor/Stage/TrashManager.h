@@ -38,8 +38,21 @@ public:
 		}
 		return static_cast<float>(m_currentCleanPoint) / m_totalCleanPoint;
 	}
+	/** 吸い込んで所持しているゴミの情報*/
+	struct HeldTrashInfo
+	{
+		EnTrashType type;
+		int cleanPoint;
+	};
 
+	/** 所持しているゴミの数*/
+	int GetHeldTrashCount()const
+	{
+		return static_cast<int>(m_heldTrashList.size());
+	}
 
+	/** 所持しているごみをすべて捨てて、達成率とスコアに反映させる。捨てた個数を返す*/
+	int DiscardHeldTrash();
 private:
 	/** ゴミとそのゴミが沸いた区画のペア*/
 	struct TrashEntry
@@ -48,7 +61,6 @@ private:
 		EnArea area;
 	};
 private:
-	
 	/** その地点にゴミを置けるか(床以外の当たり判定が無いか)*/
 	bool CanPlaceTrash(float x, float z,float&outY)const;
 	/** 指定位置の真上から真下にレイを飛ばして、床だけにレイがあたるか調べる*/
@@ -71,14 +83,13 @@ private:
 	float CalcSuctionSpeed(float distance)const;
 	/** ゴミを吸い込み口に向けて1フレーム動かす*/
 	void PullTrash(Trash* trash, const Vector3& nozzlePos, float speed, float deltaTime)const;
-
 	/** ゴミの種類に応じたスコアを返す*/
 	int GetTrashScore(EnTrashType type) const;
 
 private:
-
 	static constexpr int  AREA_NUM = static_cast<int>(EnArea::enNum);
-
+	/** 持っているごみの数*/
+	std::vector<HeldTrashInfo>m_heldTrashList;
 	std::vector<TrashEntry> m_trashList;
 	std::mt19937 m_random;
 	/** 各区画のごみの残り数*/

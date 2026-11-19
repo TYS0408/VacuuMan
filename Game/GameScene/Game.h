@@ -1,5 +1,4 @@
 ﻿#pragma once
-
 #include "Level3DRender/LevelRender.h"
 #include"sound/SoundSource.h"
 class Player;
@@ -11,14 +10,15 @@ class GameTimer;
 class CleanRate;
 class Pause;
 class Score;
+class TrashBox;
 class Game : public IGameObject
 {
 public:
 	Game();
 	~Game();
-	bool Start();
-	void Update();
-	void Render(RenderContext& rc) {};
+	bool Start()override;
+	void Update()override;
+	void Render(RenderContext& rc)override {};
 
 private:
 	/** プレイヤー */
@@ -47,6 +47,8 @@ private:
 	SoundSource* m_gameBGM = nullptr;
 	/** スコア*/
 	Score* m_score = nullptr;
+	/** トラッシュボックス*/
+	TrashBox* m_trashBox = nullptr;
 
 };
 

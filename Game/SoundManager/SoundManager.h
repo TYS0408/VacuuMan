@@ -22,7 +22,7 @@ class SoundManager : public IGameObject
 public:
 	SoundManager();
 	~SoundManager();
-	void Update();
+	void Update()override;
 
 	/** BGMを再生する関数 */
 	SoundSource* PlayingBGM(SoundBGM number, bool isLoop = true);

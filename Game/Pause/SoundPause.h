@@ -7,9 +7,9 @@ public:
 	SoundPause() {};
 	~SoundPause() {};
 
-	bool Start();
-	void Update();
-	void Render(RenderContext& rc);
+	bool Start()override;
+	void Update()override;
+	void Render(RenderContext& rc)override;
 
 	/** 選択番号設定*/
 	void SetCount(int count)

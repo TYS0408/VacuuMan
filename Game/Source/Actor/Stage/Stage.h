@@ -24,7 +24,7 @@ private:
 	/** ステージのエフェクト*/
 	EffectEmitter* m_stageEffect = nullptr;
 	/** 現在表示しているエリア*/
-	int m_currentDivisionArea = 01;
+	int m_currentDivisionArea = 0;
 };
 
 

@@ -9,9 +9,9 @@ public:
 	~GameTimer();
 
 
-	bool Start();
-	void Update();
-	void Render(RenderContext& rc);
+	bool Start()override;
+	void Update()override;
+	void Render(RenderContext& rc)override;
 
 private:
 	/** タイマーの処理*/

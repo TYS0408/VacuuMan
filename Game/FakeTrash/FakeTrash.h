@@ -5,9 +5,9 @@ public:
 	FakeTrash() {};
 	~FakeTrash() {};
 
-	bool Start();
-	void Update();
-	void Render(RenderContext& rc);
+	bool Start()override;
+	void Update()override;
+	void Render(RenderContext& rc)override;
 
 	void SetPosition(const Vector3& pos)
 	{
