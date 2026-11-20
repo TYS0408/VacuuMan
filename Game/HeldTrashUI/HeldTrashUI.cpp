@@ -2,7 +2,7 @@
 #include "HeldTrashUI.h"
 #include"Source/Actor/Stage/TrashManager.h"
 #include"Pause/Pause.h"
-#include"TrashBox.h"
+#include"TrashBox/TrashBox.h"
 namespace
 {
 	/** ファイルパス*/
@@ -40,7 +40,11 @@ namespace
 	/** Aボタン*/
 	constexpr float ABUTTAN_W = 100.0f;
 	constexpr float ABUTTAN_H = 75.0f;
-	const Vector3 ABUTTAN_POS = Vector3(-550.0f, 300.0f, 0.0f);
+	const Vector3 ABUTTAN_POS = Vector3(-550.0f, 250.0f, 0.0f);
+	/** Aボタンの上下移動の幅*/
+	constexpr float ABUTTAN_MOVE_RANGE = 10.0f;
+	/** Aボタンの上下移動の速さ*/
+	constexpr float ABUTTAN_MOVE_SPEED = 5.0f;
 
 }
 
@@ -104,6 +108,25 @@ void HeldTrashUI::Update()
 	
 	/** ゴミを一個以上持っていて、ゴミ箱の近くに居たらAボタンのUIを出すようにする*/
 	m_isShowAbuttan = m_heldCount > 0 && m_trashBox != nullptr && m_trashBox->IsPlayerNear();
+
+	if (m_isShowAbuttan)
+	{
+		/** 表示している間だけ時間を進める*/
+		m_abuttanTimer += g_gameTime->GetFrameDeltaTime();
+		/** sinfは-1～1を返すので、幅をかけて基準位置に足すことで
+		上下に動く距離にする*/
+		Vector3 pos = ABUTTAN_POS;
+		/** m_abuttanTimer * ABUTTAN_MOVE_SPEED　=経過時間に速さをかけた値*/
+
+		pos.y += sinf(m_abuttanTimer * ABUTTAN_MOVE_SPEED) * ABUTTAN_MOVE_RANGE;
+		m_abuttanSpriteRender.SetPosition(pos);
+		m_abuttanSpriteRender.Update();
+	}
+	else
+	{
+		/** 非表示になったらリセット。次に出す時は基準位置から動き始める*/
+		m_abuttanTimer = 0.0f;
+	}
 }
 
 
@@ -128,7 +151,9 @@ void HeldTrashUI::Render(RenderContext& rc)
 			m_emptySpriteRender[i].Draw(rc);
 		}
 	}
+	/** 文字の描画*/
 	m_wordSpriteRender.Draw(rc);
+	/** アイコンの描画*/
 	m_iconSpriteRender.Draw(rc);
 	if (m_isShowAbuttan)
 	{

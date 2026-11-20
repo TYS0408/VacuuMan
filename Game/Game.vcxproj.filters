@@ -55,6 +55,12 @@
     <Filter Include="FakeTrash">
       <UniqueIdentifier>{d5f9aec8-6558-41fe-a752-724d037ad6d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TrashBox">
+      <UniqueIdentifier>{9aa7a68d-4a13-4d8c-baba-1fb911a94c5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HeldTrashUI">
+      <UniqueIdentifier>{f84ad5fb-9091-4c0f-b0b1-df7ef6d61a76}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -128,8 +134,12 @@
     <ClCompile Include="FakeTrash\FakeTrash.cpp">
       <Filter>FakeTrash</Filter>
     </ClCompile>
-    <ClCompile Include="TrashBox.cpp" />
-    <ClCompile Include="HeldTrashUI.cpp" />
+    <ClCompile Include="HeldTrashUI\HeldTrashUI.cpp">
+      <Filter>HeldTrashUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TrashBox\TrashBox.cpp">
+      <Filter>TrashBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -202,7 +212,11 @@
     <ClInclude Include="FakeTrash\FakeTrash.h">
       <Filter>FakeTrash</Filter>
     </ClInclude>
-    <ClInclude Include="TrashBox.h" />
-    <ClInclude Include="HeldTrashUI.h" />
+    <ClInclude Include="HeldTrashUI\HeldTrashUI.h">
+      <Filter>HeldTrashUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TrashBox\TrashBox.h">
+      <Filter>TrashBox</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

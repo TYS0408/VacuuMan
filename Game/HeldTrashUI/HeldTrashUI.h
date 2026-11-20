@@ -27,7 +27,6 @@ private:
 
 	int m_heldCount = 0;
 	bool m_isMaxHeld = false;
-
 	/** 枠*/
 	SpriteRender m_frameSpriteRender;
 	/** 「ゴミ所持数」のラベル*/
@@ -41,6 +40,9 @@ private:
 	/** ゴミ箱に近づいたときに出すAボタン*/
 	SpriteRender m_abuttanSpriteRender;
 	/** Aボタンを描画するかどうか*/
-	bool m_isShowAbuttan = false;
+	bool m_isShowAbuttan = false; 
+	/** Aボタンの上下移動の経過時間*/
+	float m_abuttanTimer = 0.0f;
+	
 };
 

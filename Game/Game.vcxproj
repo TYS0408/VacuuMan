@@ -232,7 +232,7 @@
     <ClCompile Include="GameScene\GameOver.cpp" />
     <ClCompile Include="GameScene\Title.cpp" />
     <ClCompile Include="GameTimer\GameTimer.cpp" />
-    <ClCompile Include="HeldTrashUI.cpp" />
+    <ClCompile Include="HeldTrashUI\HeldTrashUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pause\Pause.cpp" />
     <ClCompile Include="Pause\SoundPause.cpp" />
@@ -253,7 +253,7 @@
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="Transform\Transform.cpp" />
-    <ClCompile Include="TrashBox.cpp" />
+    <ClCompile Include="TrashBox\TrashBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CleanRate\CleanRate.h" />
@@ -265,7 +265,7 @@
     <ClInclude Include="GameScene\GameOver.h" />
     <ClInclude Include="GameScene\Title.h" />
     <ClInclude Include="GameTimer\GameTimer.h" />
-    <ClInclude Include="HeldTrashUI.h" />
+    <ClInclude Include="HeldTrashUI\HeldTrashUI.h" />
     <ClInclude Include="Pause\Pause.h" />
     <ClInclude Include="Pause\SoundPause.h" />
     <ClInclude Include="Score\Score.h" />
@@ -281,7 +281,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="Transform\Transform.h" />
-    <ClInclude Include="TrashBox.h" />
+    <ClInclude Include="TrashBox\TrashBox.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

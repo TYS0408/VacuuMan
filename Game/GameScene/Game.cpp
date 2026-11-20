@@ -10,8 +10,8 @@
 #include"SoundManager/SoundManager.h"
 #include"Pause/Pause.h"
 #include"Score/Score.h"
-#include"TrashBox.h"
-#include"HeldTrashUI.h"
+#include"TrashBox/TrashBox.h"
+#include"HeldTrashUI/HeldTrashUI.h"
 
 Game::Game()
 {
