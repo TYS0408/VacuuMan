@@ -51,6 +51,11 @@ public:
 		return static_cast<int>(m_heldTrashList.size());
 	}
 
+	bool IsHeldMax()const
+	{
+		return static_cast<int>(m_heldTrashList.size() >= MAX_HELD_COUNT);
+	}
+
 	/** 所持しているごみをすべて捨てて、達成率とスコアに反映させる。捨てた個数を返す*/
 	int DiscardHeldTrash();
 private:
@@ -88,6 +93,8 @@ private:
 
 private:
 	static constexpr int  AREA_NUM = static_cast<int>(EnArea::enNum);
+	/** 所持できるゴミの数*/
+	static const int MAX_HELD_COUNT = 10;
 	/** 持っているごみの数*/
 	std::vector<HeldTrashInfo>m_heldTrashList;
 	std::vector<TrashEntry> m_trashList;

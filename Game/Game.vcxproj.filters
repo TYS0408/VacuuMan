@@ -129,6 +129,7 @@
       <Filter>FakeTrash</Filter>
     </ClCompile>
     <ClCompile Include="TrashBox.cpp" />
+    <ClCompile Include="HeldTrashUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -202,5 +203,6 @@
       <Filter>FakeTrash</Filter>
     </ClInclude>
     <ClInclude Include="TrashBox.h" />
+    <ClInclude Include="HeldTrashUI.h" />
   </ItemGroup>
 </Project>

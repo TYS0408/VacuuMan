@@ -4,6 +4,7 @@
 #include"Stage.h"
 #include"Source/Actor/Character/Player/Player.h"
 #include"Score/Score.h"
+
 namespace
 {
 	/** ゴミの全体量*/
@@ -326,7 +327,11 @@ void TrashManager::UpdateSuction()
 	{
 		return;
 	}
-
+	/** ゴミの所持数がMax(10以上)になっていたらごみを吸えないようにする*/
+	if (IsHeldMax())
+	{
+		return;
+	}
 	/** 掃除機に吸い込み口の位置と向きを教えてもらう*/
 	const Vector3 nozzlePos = vaccum->GetSuctionPosition();
 	const Vector3 suctionDir = vaccum->GetSuctionDirection();
@@ -351,6 +356,7 @@ void TrashManager::UpdateSuction()
 			const int areaIndex = static_cast<int>(area);
 			DeleteGO(trash);
 			it = m_trashList.erase(it);
+			
 
 			/** 区画のゴミ数を減らして、0になったら確保を通知する*/
 			m_areaTrashCount[areaIndex]--;
@@ -499,5 +505,6 @@ int TrashManager::DiscardHeldTrash()
 	}
 	/** ここで精算が終わるのでリストを空にする*/
 	m_heldTrashList.clear();
+
 	return count;
 }

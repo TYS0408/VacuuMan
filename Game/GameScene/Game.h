@@ -11,6 +11,7 @@ class CleanRate;
 class Pause;
 class Score;
 class TrashBox;
+class HeldTrashUI;
 class Game : public IGameObject
 {
 public:
@@ -49,6 +50,8 @@ private:
 	Score* m_score = nullptr;
 	/** トラッシュボックス*/
 	TrashBox* m_trashBox = nullptr;
+	/** あとどれくらいごみを吸えるかのUI*/
+	HeldTrashUI* m_heldTrashUI = nullptr;
 
 };
 

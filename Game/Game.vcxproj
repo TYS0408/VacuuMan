@@ -232,6 +232,7 @@
     <ClCompile Include="GameScene\GameOver.cpp" />
     <ClCompile Include="GameScene\Title.cpp" />
     <ClCompile Include="GameTimer\GameTimer.cpp" />
+    <ClCompile Include="HeldTrashUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pause\Pause.cpp" />
     <ClCompile Include="Pause\SoundPause.cpp" />
@@ -264,6 +265,7 @@
     <ClInclude Include="GameScene\GameOver.h" />
     <ClInclude Include="GameScene\Title.h" />
     <ClInclude Include="GameTimer\GameTimer.h" />
+    <ClInclude Include="HeldTrashUI.h" />
     <ClInclude Include="Pause\Pause.h" />
     <ClInclude Include="Pause\SoundPause.h" />
     <ClInclude Include="Score\Score.h" />
