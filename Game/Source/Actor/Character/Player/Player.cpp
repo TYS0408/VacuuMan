@@ -25,6 +25,8 @@ namespace
 
 	/** プレイヤーから見た掃除機の相対位置(右・上・前)*/
 	const Vector3 VACCUM_OFFSET = Vector3(30.0f, 40.0f, 40.0f);
+	/** モーションブレンドの数値*/
+	constexpr float ANIMATION_INTERPOLATE_TIME = 0.3f;
 }
 
 Player::Player()
@@ -146,15 +148,8 @@ void Player::Move()
 
 	/** 入力量を反映*/
 	Vector3 moveDir = forward * stickL.z + right * stickL.x;
-	moveDir *= 150.0f;
+	moveDir *= 300.0f;
 	m_moveSpeed = moveDir;
-
-	/** 左スティックの入力量と150.0fを乗算する*/
-	right *= stickL.x * 150.0f;
-	forward *= stickL.z * 150.0f;
-
-	/** 移動速度にカメラの前方向と右方向を加算*/
-	m_moveSpeed += right + forward;
 
 	/** キャラクターコントローラーを使って座標を移動させる*/
 	m_transform.SetPosition(m_characterController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime()));
@@ -171,14 +166,16 @@ void Player::Rotation()
 {
 	/** 移動速度のXまたはZ成分がある程度あるときだけ回転処理を行う。
 	(停止しているときは回転させない)*/
-	if (fabsf(m_moveSpeed.x) >= 0.0001 || fabsf(m_moveSpeed.z)>= 0.0001f)
+	if (fabsf(m_moveSpeed.x) >= 0.0001 || fabsf(m_moveSpeed.z) >= 0.0001f)
 	{
-		m_rotation.SetRotationYFromDirectionXZ(m_moveSpeed);
-
-		m_transform.SetRotation(m_rotation);
+		Quaternion targetRot;
+		targetRot.SetRotationYFromDirectionXZ(m_moveSpeed);
+		/** 現在の向きから目標ヘ少しずつ近づける*/
+		constexpr float ROTATE_SPEED = 8.0f;
+		float t = min(1.0f, ROTATE_SPEED * g_gameTime->GetFrameDeltaTime());
+		/**回転Aと回転Bの間を、割合 t の位置まで補間した回転 */
+		m_rotation.Slerp(t, m_rotation, targetRot);
 	}
-
-	
 	m_playerModelRender.SetRotation(m_rotation);
 }
 
@@ -217,11 +214,12 @@ void Player::PlayAnimation()
 	switch (m_state)
 	{
 	case 0:
-		m_playerModelRender.PlayAnimation(enAnimaitonClip_Idle);
+		m_playerModelRender.PlayAnimation(enAnimaitonClip_Idle,ANIMATION_INTERPOLATE_TIME);
 		break;
 
 	case 1:
-		m_playerModelRender.PlayAnimation(enAnimationClip_Run);
+		m_playerModelRender.PlayAnimation(enAnimationClip_Run,ANIMATION_INTERPOLATE_TIME);
+		break;
 	default:
 		break;
 	}
