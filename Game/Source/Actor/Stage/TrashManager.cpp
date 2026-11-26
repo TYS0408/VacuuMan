@@ -249,7 +249,7 @@ bool TrashManager::Start()
 	m_random.seed(std::random_device{}());
 
 	/** 一区画あたりの配置数*/
-	/** 60÷5=12*/
+	/** 60÷4=15*/
 	const int trasPerArea = TRASH_COUNT / AREA_NUM;
 	/** ここで各区画にゴミを配置する*/
 	/** ここでゴミの総数(現在は50)だけ繰り返す*/

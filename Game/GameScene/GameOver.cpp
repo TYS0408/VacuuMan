@@ -39,7 +39,7 @@ void GameOver::Update()
 
 void GameOver::InGameOver()
 {
-	if (g_pad[0]->IsPressAnyKey())
+	if (g_pad[0]->IsTrigger(enButtonA))
 	{
 		/** タイトルを生成*/
 		NewGO<Title>(0, "title");
