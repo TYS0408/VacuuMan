@@ -24,14 +24,14 @@ namespace
 
 	/** それぞれの画像の大きさ*/
 	/** 背景*/
-	const int BACKGROUND_WIDTH = 1980;
-	const int BACKGROUND_HEIGHT = 1080;
+	const float BACKGROUND_WIDTH = 1980.0f;
+	const float BACKGROUND_HEIGHT = 1080.0f;
 	/** 「音量」・「ゲームに戻る」・「ゲームをやめる」*/
-	const int BUTTON_WIDTH = 300.0f;
-	const int BUTTON_HEIGHT= 200.0f;
+	const float  BUTTON_WIDTH = 300.0f;
+	const float BUTTON_HEIGHT= 200.0f;
 	/** 「音量」黒い背景*/
-	const int VOLUMEBLACK_WIDTH = 470.0f;
-	const int VOLUMEBLACK_HEIGHT = 370.0f;
+	const float  VOLUMEBLACK_WIDTH = 470.0f;
+	const float VOLUMEBLACK_HEIGHT = 370.0f;
 	
 }
 
